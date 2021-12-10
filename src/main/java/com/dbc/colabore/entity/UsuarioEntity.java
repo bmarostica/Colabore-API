@@ -1,24 +1,43 @@
 package com.dbc.colabore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 
 @Getter
 @Setter
-public class UsuarioEntity implements UserDetails {
+@Entity(name = "USUARIO")
+public class UsuarioEntity implements Serializable, UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_SEQ")
+    @SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "SEQ_USUARIO", allocationSize = 1)
+    @Column(name = "id_usuario")
     private Integer idUsuario;
+    @Column(name = "nome")
     private String nome;
+    @Column(name = "email")
     private String email;
+    @Column(name = "senha")
     private String senha;
+    @Column(name = "foto_perfil")
     private String fotoPerfil;
 
+    @ManyToMany (mappedBy = "CAMPANHA")
+    private List<CampanhaEntity> campanhas;
+
+
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return null; //TODO necessário implementar as regras para o usuário
     }
 
@@ -30,7 +49,7 @@ public class UsuarioEntity implements UserDetails {
     @Override
     public String getUsername() {
         return email;
-    }  //ateração para email
+    }
 
     @Override
     public boolean isAccountNonExpired() {
