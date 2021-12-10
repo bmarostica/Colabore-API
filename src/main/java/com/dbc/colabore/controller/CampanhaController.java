@@ -65,16 +65,16 @@ public class CampanhaController {
         return null;
     }
 
-    @ApiOperation("Retorna uma lista de campanhas concluídas.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
-    })
-    @GetMapping("/list-por-campanhas-concluidas")
-    public List<CampanhaDTO> listPorCampanhasConcluidas(){
-        return null;
-    }
+//    @ApiOperation("Retorna uma lista de campanhas concluídas.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
+//            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+//            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+//    })
+//    @GetMapping("/list-por-campanhas-concluidas")
+//    public List<CampanhaDTO> listPorCampanhasConcluidas(){
+//        return null;
+//    }
 
     @ApiOperation("Deleta uma campanha existente através do id.")
     @ApiResponses(value = {
