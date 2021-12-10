@@ -2,7 +2,7 @@ package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.UsuarioCreateDTO;
 import com.dbc.colabore.dto.UsuarioDTO;
-import com.dbc.colabore.service.UsuarioServece;
+import com.dbc.colabore.service.UsuarioService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 @Slf4j
 @RequiredArgsConstructor
 public class UsuarioController {
-    private final UsuarioServece usuarioServece;
+    private final UsuarioService usuarioService;
 
     @ApiOperation(value = "Cria um novo usuario")
     @ApiResponses(value ={
@@ -33,7 +33,7 @@ public class UsuarioController {
     @PostMapping
     public UsuarioDTO create(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO) {
         log.info("Criando usuario");
-        UsuarioDTO usuarioDTO = usuarioServece.create(usuarioCreateDTO);
+        UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO);
         log.info("Usuario criado com sucesso");
         return usuarioDTO;
     }

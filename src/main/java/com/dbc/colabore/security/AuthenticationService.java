@@ -1,7 +1,7 @@
 package com.dbc.colabore.security;
 
 import com.dbc.colabore.entity.UsuarioEntity;
-import com.dbc.colabore.service.UsuarioServece;
+import com.dbc.colabore.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService implements UserDetailsService {
-    private final UsuarioServece usuarioService; //TODO necessário service
+    private final UsuarioService usuarioService; //TODO necessário service
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {

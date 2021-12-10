@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UsuarioServece {
+public class UsuarioService {
     private final ObjectMapper objectMapper;
     private final UsuarioRepository usuarioRepository;
 
