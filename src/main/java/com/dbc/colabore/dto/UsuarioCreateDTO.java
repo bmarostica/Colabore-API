@@ -28,5 +28,7 @@ public class UsuarioCreateDTO {
     @ApiModelProperty(value= "Senha")
     private String senha;
 
+
+
     private String fotoPerfil;
 }
