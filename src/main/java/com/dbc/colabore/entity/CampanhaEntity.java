@@ -6,7 +6,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -19,6 +18,8 @@ public class CampanhaEntity {
     @Column(name = "ID_CAMPANHA")
     private Integer idCampanha;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @Column(name = "ID_USUARIO")
     private UsuarioEntity idUsuario;
 
@@ -40,11 +41,9 @@ public class CampanhaEntity {
     @Column(name = "ULTIMA_ALTERACAO")
     private LocalDateTime ultimaAlteracao;
 
-
     @Enumerated
     @Column(name = "STATUS_CAMPANHA")
     private StatusCampanha statusCampanha;
-
 
     @Column(name = "DESCRICAO_CAMPANHA")
     private String descricaoCampanha;
@@ -55,8 +54,5 @@ public class CampanhaEntity {
             joinColumns = @JoinColumn(name = "id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "id_campanha")
     )
-    private List<UsuarioEntity> usuariosContribuidores;
-
-
-
+    private Set<UsuarioEntity> usuariosContribuidores;
 }
