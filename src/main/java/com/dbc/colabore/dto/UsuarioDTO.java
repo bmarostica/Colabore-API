@@ -29,10 +29,6 @@ public class UsuarioDTO {
     @ApiModelProperty(value= "E-mail")
     private String email;
 
-    @NotNull(message = "Não pode ser null")
-    @NotBlank(message = "Não pode estar em branco")
-    @ApiModelProperty(value= "Senha")
-    private String senha;
 
     private String fotoPerfil;
 }

@@ -29,8 +29,8 @@ public class UsuarioEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return nome;
-    }
+        return email;
+    }  //ateração para email
 
     @Override
     public boolean isAccountNonExpired() {
