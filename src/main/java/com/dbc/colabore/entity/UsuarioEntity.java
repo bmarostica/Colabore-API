@@ -17,8 +17,7 @@ import java.util.List;
 @Entity(name = "USUARIO")
 public class UsuarioEntity implements Serializable, UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_SEQ")
-    @SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "SEQ_USUARIO", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Integer idUsuario;
     @Column(name = "nome")
