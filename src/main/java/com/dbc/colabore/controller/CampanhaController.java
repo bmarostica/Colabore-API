@@ -55,15 +55,15 @@ public class CampanhaController {
         return null;
     }
 
-    @ApiOperation("Mostra uma lista com todas as campanhas.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
-    })
-    @GetMapping
-    public List<CampanhaDTO> list(){
-        return null;
-    }
+//    @ApiOperation("Mostra uma lista com todas as campanhas.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
+//            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+//    })
+//    @GetMapping
+//    public List<CampanhaDTO> list(){
+//        return null;
+//    }
 
 //    @ApiOperation("Retorna uma lista de campanhas concluídas.")
 //    @ApiResponses(value = {
