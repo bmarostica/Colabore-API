@@ -1,4 +1,4 @@
-package com.dbc.colabore.Controller;
+package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.UsuarioCreateDTO;
 import com.dbc.colabore.dto.UsuarioDTO;

@@ -30,7 +30,7 @@ public class LoginController {
     public String login(@RequestBody @Valid LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken user =
                 new UsernamePasswordAuthenticationToken(
-                        loginDTO.getLogin(),
+                        loginDTO.getUsuario(),
                         loginDTO.getSenha()
                 );
 
