@@ -13,12 +13,16 @@ public class CategoriaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_CATEGORIA")
-    private String idCategoria;
+    private Integer idCategoria;
 
     @Column(name = "NOME")
     private String nome;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_campanha", referencedColumnName = "id_campanha")
+    @JoinTable(
+            name = "CAMPANHA_CATEGORIA",
+            joinColumns = @JoinColumn(name = "id_campanha"),
+            inverseJoinColumns = @JoinColumn(name = "id_categoria")
+    )
     private CampanhaEntity campanhaEntity;
 }
