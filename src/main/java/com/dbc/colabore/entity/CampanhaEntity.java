@@ -20,7 +20,6 @@ public class CampanhaEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
-    @Column(name = "ID_USUARIO")
     private UsuarioEntity idUsuario;
 
     @Column(name = "FOTO")
@@ -35,7 +34,7 @@ public class CampanhaEntity {
     @Column(name = "TOTAL_ARECADADO")
     private BigDecimal totalArrecadado;
 
-    @OneToMany(mappedBy = "campanhaEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "campanhaEntity", fetch = FetchType.LAZY)
     private Set<CategoriaEntity> tagsCategoria;
 
     @Column(name = "ULTIMA_ALTERACAO")
@@ -55,4 +54,5 @@ public class CampanhaEntity {
             inverseJoinColumns = @JoinColumn(name = "id_campanha")
     )
     private Set<UsuarioEntity> usuariosContribuidores;
+
 }

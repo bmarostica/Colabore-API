@@ -24,7 +24,7 @@ public class UsuarioEntity {
     @Column(name = "foto_perfil")
     private String fotoPerfil;
 
-    @ManyToMany (mappedBy = "CAMPANHA")
+    @ManyToMany (mappedBy = "usuariosContribuidores")
     private Set<CampanhaEntity> campanhas;
 
 }

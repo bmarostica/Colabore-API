@@ -20,5 +20,5 @@ public class CategoriaEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_campanha", referencedColumnName = "id_campanha")
-    private CampanhaEntity campanha;
+    private CampanhaEntity campanhaEntity;
 }
