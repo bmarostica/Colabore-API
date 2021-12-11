@@ -24,18 +24,18 @@ import javax.validation.Valid;
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
-//    @ApiOperation(value = "Cria um novo usuario")
-//    @ApiResponses(value ={
-//            @ApiResponse(code = 200, message = "Usuario Criado com Sucesso"),
-//            @ApiResponse(code = 400, message = "Algum dado Inconsistente"),
-//            @ApiResponse(code = 500, message = "Foi Gerada uma Exceção"),
-//    })
-//    @PostMapping
-//    public UsuarioDTO create(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO) {
-//        log.info("Criando usuario");
-//        UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO);
-//        log.info("Usuario criado com sucesso");
-//        return usuarioDTO;
-//    }
+    @ApiOperation(value = "Cria um novo usuario")
+    @ApiResponses(value ={
+            @ApiResponse(code = 200, message = "Usuario Criado com Sucesso"),
+            @ApiResponse(code = 400, message = "Algum dado Inconsistente"),
+            @ApiResponse(code = 500, message = "Foi Gerada uma Exceção"),
+    })
+    @PostMapping
+    public UsuarioDTO create(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO) {
+        log.info("Criando usuario");
+        UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO);
+        log.info("Usuario criado com sucesso");
+        return usuarioDTO;
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.dbc.colabore.security;
 
-import com.dbc.colabore.entity.PerfilEntity;
 import com.dbc.colabore.entity.UsuarioEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -32,20 +31,20 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String generateToken(PerfilEntity perfil) {
+    public String generateToken(UsuarioEntity usuario) {
         Date generateDate = new Date();
 
         //tempoExpiração
         Date exp = new Date(generateDate.getTime() + Long.parseLong(expiration));
 
-        List<String> permissoes = perfil.getAuthorities().stream()
+        List<String> permissoes = usuario.getAuthorities().stream()
                 .map(grantedAuthority -> grantedAuthority.getAuthority())
                 .collect(Collectors.toList());
 
         String jwtToken = Jwts.builder()
                 .setIssuer("colabore-api")
                 .claim(CLAIM_PERMISSOES, permissoes)
-                .setSubject(perfil.getIdPerfil().toString())
+                .setSubject(usuario.getIdUsuario().toString())
                 .setIssuedAt(generateDate)
                 .setExpiration(exp)
                 .signWith(SignatureAlgorithm.HS256, secret)
