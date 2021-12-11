@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -31,7 +32,7 @@ public class CampanhaEntity {
     @Column(name = "META_ARRECADACAO")
     private BigDecimal metaArrecadacao;
 
-    @Column(name = "TOTAL_ARECADADO")
+    @Column(name = "TOTAL_ARRECADADO")
     private BigDecimal totalArrecadado;
 
     @OneToMany(mappedBy = "campanhaEntity", fetch = FetchType.LAZY)
@@ -40,9 +41,8 @@ public class CampanhaEntity {
     @Column(name = "ULTIMA_ALTERACAO")
     private LocalDateTime ultimaAlteracao;
 
-    @Enumerated
     @Column(name = "STATUS_CAMPANHA")
-    private StatusCampanha statusCampanha;
+    private Boolean statusCampanha;
 
     @Column(name = "DESCRICAO_CAMPANHA")
     private String descricaoCampanha;

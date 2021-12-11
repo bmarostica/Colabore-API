@@ -2,6 +2,8 @@ package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.CampanhaCreateDTO;
 import com.dbc.colabore.dto.CampanhaDTO;
+import com.dbc.colabore.exception.RegraDeNegocioException;
+import com.dbc.colabore.service.CampanhaService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -20,6 +22,8 @@ import java.util.List;
 @Validated
 public class CampanhaController {
 
+    private final CampanhaService campanhaService;
+
 
     @ApiOperation("Cria uma nova campanha.")
     @ApiResponses(value = {
@@ -29,7 +33,7 @@ public class CampanhaController {
     })
     @PostMapping
     public CampanhaDTO create(@RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO){
-        return null;
+        return campanhaService.create(campanhaCreateDTO);
     }
 
 
@@ -100,6 +104,18 @@ public class CampanhaController {
     @DeleteMapping("/{foto}")
     public CampanhaDTO deleteFotoDeCapa(@PathVariable("foto") String foto){
         return null;
+    }
+
+
+    @ApiOperation("Altera o status da campanha de ativo para inativo.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Status alterado com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+    })
+    @PutMapping("/altera-o-status-de-uma-campanha")
+    public void alteraStatusDaCampanha(Integer id) throws RegraDeNegocioException{
+        campanhaService.alteraStatusDaCampanha(id);
     }
 
 }

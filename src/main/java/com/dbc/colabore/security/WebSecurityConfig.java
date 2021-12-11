@@ -34,12 +34,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/usuario/**").hasRole("COLABORADOR")
+//                .antMatchers(HttpMethod.GET, "/usuario/**").hasRole("COLABORADOR")
                 //TODO inserir regra para o colaborador
 
-                .antMatchers(HttpMethod.POST, "/campanha/**").hasRole("CRIADOR")
-                .antMatchers(HttpMethod.PUT, "/campanha/**").hasRole("CRIADOR")
-                .antMatchers(HttpMethod.DELETE, "/campanha/**").hasRole("CRIADOR")
+//                .antMatchers(HttpMethod.POST, "/campanha/**").hasRole("CRIADOR")
+//                .antMatchers(HttpMethod.PUT, "/campanha/**").hasRole("CRIADOR")
+//                .antMatchers(HttpMethod.DELETE, "/campanha/**").hasRole("CRIADOR")
                 //filtro de autenticação
                 .and().addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
     }

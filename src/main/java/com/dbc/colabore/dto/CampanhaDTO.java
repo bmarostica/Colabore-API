@@ -1,9 +1,7 @@
 package com.dbc.colabore.dto;
 
-import com.dbc.colabore.entity.UsuarioEntity;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,12 +12,10 @@ import java.util.List;
 public class CampanhaDTO extends CampanhaCreateDTO{
 
     private Integer idCampanha;
+    private UsuarioDTO criadorCampanha;
     private BigDecimal totalArrecadado;
-    private List<UsuarioEntity> usuariosContribuidores;
+    private List<UsuarioDTO> usuariosContribuidores;
     private LocalDateTime ultimaAlteracao;
-
-
-
-
+    private Boolean statusCampanha;
 
 }
