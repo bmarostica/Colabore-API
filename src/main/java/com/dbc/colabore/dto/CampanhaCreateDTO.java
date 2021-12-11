@@ -1,7 +1,6 @@
 package com.dbc.colabore.dto;
 
-import com.dbc.colabore.entity.StatusCampanha;
-import com.dbc.colabore.entity.UsuarioEntity;
+import com.dbc.colabore.entity.CategoriaEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,10 +17,6 @@ import java.util.List;
 public class CampanhaCreateDTO {
 
     @NotBlank
-    @ApiModelProperty(value = "Foto da Campanha")
-    private String foto;
-
-    @NotBlank
     @ApiModelProperty(value = "Título da Campanha")
     private String tituloCampanha;
 
@@ -30,19 +25,15 @@ public class CampanhaCreateDTO {
     private BigDecimal metaArrecadacao;
 
     @NotBlank
-    @ApiModelProperty(value = "Categorias")
-    private List<String> tagsCategoria;
-
-    @NotNull
-    @ApiModelProperty(value = "Status da Campanha")
-    private StatusCampanha statusCampanha;
-
-    @NotBlank
     @ApiModelProperty(value = "Descrição da Campanha")
     private String descricaoCampanha;
 
+    @NotBlank
+    @ApiModelProperty(value = "Foto da Campanha")
+    private String foto;
+
     @NotNull
-    @ApiModelProperty(value = "Criador da Campanha")
-    private UsuarioEntity criadorCampanha;
+    @ApiModelProperty(value = "Categorias")
+    private List<CategoriaDTO> tagsCategoria;
 
 }
