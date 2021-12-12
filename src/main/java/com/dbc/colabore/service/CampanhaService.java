@@ -42,10 +42,12 @@ public class CampanhaService {
         return campanhaDTO;
     }
 
+    //funcionando
     public BigDecimal doacao(Integer id, BigDecimal valorDoado){
         CampanhaEntity localizarCampanha = campanhaRepository.getById(id);
         CampanhaEntity campanhaEntity = objectMapper.convertValue(localizarCampanha, CampanhaEntity.class);
-        campanhaEntity.setTotalArrecadado(valorDoado);
+        BigDecimal totalArrecadado = campanhaEntity.getTotalArrecadado();
+        campanhaEntity.setTotalArrecadado(totalArrecadado.add(valorDoado));
         CampanhaEntity salvarCampanha = campanhaRepository.save(campanhaEntity);
         CampanhaDTO campanhaDTO = objectMapper.convertValue(salvarCampanha, CampanhaDTO.class);
         return campanhaDTO.getTotalArrecadado();
@@ -53,6 +55,7 @@ public class CampanhaService {
 
 
 
+    //funcionando
     public void alteraStatusDaCampanha(Integer id) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity = findById(id);
         if (campanhaEntity.getTotalArrecadado().compareTo(campanhaEntity.getMetaArrecadacao()) >= 0) {
