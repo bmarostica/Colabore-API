@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,4 +30,7 @@ public class UsuarioCreateDTO {
     private String senha;
 
     private String fotoPerfil;
+
+
+    private List<Integer> perfis;
 }
