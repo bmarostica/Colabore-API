@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CampanhaDTO extends CampanhaCreateDTO{
 
     private Integer idCampanha;
@@ -17,5 +15,4 @@ public class CampanhaDTO extends CampanhaCreateDTO{
     private List<UsuarioDTO> usuariosContribuidores;
     private LocalDateTime ultimaAlteracao;
     private Boolean statusCampanha;
-
 }

@@ -47,16 +47,16 @@ public class CampanhaController {
         return campanhaService.list();
     }
 
-    @ApiOperation("Retorna uma lista de campanhas concluídas.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
-    })
-    @GetMapping("/list-por-campanhas-concluidas")
-    public List<CampanhaDTO> listPorCampanhasConcluidas(){
-        return campanhaService.findByCampanhasConcluidas();
-    }
+//    @ApiOperation("Retorna uma lista de campanhas concluídas.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
+//            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+//            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+//    })
+//    @GetMapping("/list-por-campanhas-concluidas")
+//    public List<CampanhaDTO> listPorCampanhasConcluidas(){
+//        return campanhaService.findByCampanhasConcluidas();
+//    }
 
     @ApiOperation("Altera o status da campanha de ativo para inativo.")
     @ApiResponses(value = {
@@ -69,16 +69,16 @@ public class CampanhaController {
         campanhaService.alteraStatusDaCampanha(id);
     }
 
-    @ApiOperation("Realiza a doação de um valor para a campanha.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Doação realizada com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
-    })
-    @PutMapping("/realiza-a-doacao-de-um-valor")
-    public void doacao(Integer id, BigDecimal valorDoado) throws RegraDeNegocioException{
-        campanhaService.doacao(id, valorDoado);
-    }
+//    @ApiOperation("Realiza a doação de um valor para a campanha.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Doação realizada com sucesso!"),
+//            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+//            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+//    })
+//    @PutMapping("/realiza-a-doacao-de-um-valor")
+//    public void doacao(Integer id, BigDecimal valorDoado) throws RegraDeNegocioException{
+//        campanhaService.doacao(id, valorDoado);
+//    }
 
     @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
     @ApiResponses(value = {

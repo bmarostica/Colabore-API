@@ -1,5 +1,6 @@
 package com.dbc.colabore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,10 +20,6 @@ public class CategoriaEntity {
     private String nome;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "CAMPANHA_CATEGORIA",
-            joinColumns = @JoinColumn(name = "id_campanha"),
-            inverseJoinColumns = @JoinColumn(name = "id_categoria")
-    )
+    @JoinColumn(name = "id_campanha", referencedColumnName = "id_campanha")
     private CampanhaEntity campanhaEntity;
 }

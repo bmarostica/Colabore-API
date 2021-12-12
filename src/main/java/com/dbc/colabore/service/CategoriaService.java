@@ -2,8 +2,10 @@ package com.dbc.colabore.service;
 
 import com.dbc.colabore.dto.CategoriaCreateDTO;
 import com.dbc.colabore.dto.CategoriaDTO;
+import com.dbc.colabore.entity.CampanhaEntity;
 import com.dbc.colabore.entity.CategoriaEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
+import com.dbc.colabore.repository.CampanhaRepository;
 import com.dbc.colabore.repository.CategoriaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +19,14 @@ import java.util.stream.Collectors;
 public class CategoriaService {
 
     private final CategoriaRepository categoriaRepository;
+    private final CampanhaRepository campanhaRepository;
     private final ObjectMapper objectMapper;
 
-    public CategoriaDTO create(CategoriaCreateDTO categoriaCreateDTO) {
+    public CategoriaDTO create(Integer idCampanha, CategoriaCreateDTO categoriaCreateDTO) {
+        CampanhaEntity campanha = campanhaRepository.getById(idCampanha);
+
         CategoriaEntity categoriaEntity = objectMapper.convertValue(categoriaCreateDTO, CategoriaEntity.class);
+        categoriaEntity.setCampanhaEntity(campanha);
         CategoriaEntity categoriaCriada = categoriaRepository.save(categoriaEntity);
         CategoriaDTO categoriaDTO = objectMapper.convertValue(categoriaCriada, CategoriaDTO.class);
         return categoriaDTO;

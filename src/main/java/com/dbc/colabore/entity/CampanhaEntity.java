@@ -1,5 +1,6 @@
 package com.dbc.colabore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +8,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -36,6 +36,10 @@ public class CampanhaEntity {
     @Column(name = "TOTAL_ARRECADADO")
     private BigDecimal totalArrecadado;
 
+    @Column(name = "CONCLUI_AUTOMATICAMENTE_CAMPANHA")
+    private Boolean concluiCampanhaAutomaticamente;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "campanhaEntity", fetch = FetchType.LAZY)
     private Set<CategoriaEntity> tagsCategoria;
 
@@ -51,6 +55,7 @@ public class CampanhaEntity {
     @Column(name = "DATA_LIMITE_ARRECADACAO")
     private LocalDate dataLimiteContribuicao;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "USUARIO_CAMPANHA",

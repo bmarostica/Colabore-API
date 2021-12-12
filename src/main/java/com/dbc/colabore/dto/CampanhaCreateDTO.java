@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -13,8 +14,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CampanhaCreateDTO {
 
     @NotBlank
@@ -33,12 +32,13 @@ public class CampanhaCreateDTO {
     @ApiModelProperty(value = "Foto da Campanha")
     private String foto;
 
-    @NotNull
-    @ApiModelProperty(value = "Categorias")
-    private List<CategoriaDTO> tagsCategoria;
-
+    @Future
     @NotNull
     @ApiModelProperty(value = "Encerramento da campanha")
     private LocalDate dataLimiteContribuicao;
+
+    @NotNull
+    @ApiModelProperty(value = "Define se qa campanha deve ser encerrada automaticamente ao atingir a meta")
+    private Boolean concluiCampanhaAutomaticamente;
 
 }
