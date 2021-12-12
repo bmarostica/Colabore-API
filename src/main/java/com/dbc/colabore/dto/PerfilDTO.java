@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PerfilDTO {
     private Integer idPerfil;
-    private String login;
-    private List<Integer> regras;
+    private String nome;
+    private String descricao;
 
 }

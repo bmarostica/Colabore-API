@@ -10,8 +10,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public enum TipoUsuario {
-    Campanha(0),
-    Colaborador(1);
+    Criador(1),
+    Colaborador(2);
 
     private Integer tipo;
 }
