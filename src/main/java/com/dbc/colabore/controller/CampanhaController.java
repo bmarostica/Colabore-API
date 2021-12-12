@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -36,6 +37,58 @@ public class CampanhaController {
         return campanhaService.create(campanhaCreateDTO);
     }
 
+    @ApiOperation("Mostra uma lista com todas as campanhas.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+    })
+    @GetMapping
+    public List<CampanhaDTO> list(){
+        return campanhaService.list();
+    }
+
+    @ApiOperation("Retorna uma lista de campanhas concluídas.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+    })
+    @GetMapping("/list-por-campanhas-concluidas")
+    public List<CampanhaDTO> listPorCampanhasConcluidas(){
+        return campanhaService.findByCampanhasConcluidas();
+    }
+
+    @ApiOperation("Altera o status da campanha de ativo para inativo.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Status alterado com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+    })
+    @PutMapping("/altera-o-status-de-uma-campanha")
+    public void alteraStatusDaCampanha(Integer id) throws RegraDeNegocioException{
+        campanhaService.alteraStatusDaCampanha(id);
+    }
+
+    @ApiOperation("Realiza a doação de um valor para a campanha.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Doação realizada com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+    })
+    @PutMapping("/realiza-a-doacao-de-um-valor")
+    public void doacao(Integer id, BigDecimal valorDoado) throws RegraDeNegocioException{
+        campanhaService.doacao(id, valorDoado);
+    }
+
+    @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+    })
+    @GetMapping("/lista-as-campanhas-concluidas")
+    public List<CampanhaDTO> findByCampanhasConcluidas(){
+        return campanhaService.findByCampanhasConcluidas();
+    }
 
     @ApiOperation("Atualiza uma campanha existente através do id.")
     @ApiResponses(value = {
@@ -56,27 +109,6 @@ public class CampanhaController {
     })
     @PutMapping("/{foto}")
     public CampanhaDTO updateFotoDeCapa(@PathVariable("foto") String foto, @RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO){
-        return null;
-    }
-
-    @ApiOperation("Mostra uma lista com todas as campanhas.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
-    })
-    @GetMapping
-    public List<CampanhaDTO> list(){
-        return null;
-    }
-
-    @ApiOperation("Retorna uma lista de campanhas concluídas.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
-    })
-    @GetMapping("/list-por-campanhas-concluidas")
-    public List<CampanhaDTO> listPorCampanhasConcluidas(){
         return null;
     }
 
@@ -107,15 +139,6 @@ public class CampanhaController {
     }
 
 
-    @ApiOperation("Altera o status da campanha de ativo para inativo.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Status alterado com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
-    })
-    @PutMapping("/altera-o-status-de-uma-campanha")
-    public void alteraStatusDaCampanha(Integer id) throws RegraDeNegocioException{
-        campanhaService.alteraStatusDaCampanha(id);
-    }
+
 
 }

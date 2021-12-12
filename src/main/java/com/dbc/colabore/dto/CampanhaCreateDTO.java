@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -35,5 +36,9 @@ public class CampanhaCreateDTO {
     @NotNull
     @ApiModelProperty(value = "Categorias")
     private List<CategoriaDTO> tagsCategoria;
+
+    @NotNull
+    @ApiModelProperty(value = "Encerramento da campanha")
+    private LocalDate dataLimiteContribuicao;
 
 }

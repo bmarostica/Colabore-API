@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -46,6 +47,9 @@ public class CampanhaEntity {
 
     @Column(name = "DESCRICAO_CAMPANHA")
     private String descricaoCampanha;
+
+    @Column(name = "DATA_LIMITE_ARRECADACAO")
+    private LocalDate dataLimiteContribuicao;
 
     @ManyToMany
     @JoinTable(
