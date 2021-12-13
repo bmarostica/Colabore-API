@@ -48,6 +48,7 @@ public class CampanhaService {
         CampanhaEntity campanhaEntity = objectMapper.convertValue(localizarCampanha, CampanhaEntity.class);
         BigDecimal totalArrecadado = campanhaEntity.getTotalArrecadado();
         campanhaEntity.setTotalArrecadado(totalArrecadado.add(valorDoado));
+        campanhaEntity.setUltimaAlteracao(LocalDateTime.now());
         CampanhaEntity salvarCampanha = campanhaRepository.save(campanhaEntity);
         CampanhaDTO campanhaDTO = objectMapper.convertValue(salvarCampanha, CampanhaDTO.class);
         return campanhaDTO.getTotalArrecadado();
