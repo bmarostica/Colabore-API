@@ -35,12 +35,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/usuario/**").authenticated()
                 .antMatchers(HttpMethod.PUT, "/usuario/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/usuario/**").authenticated()
-                //TODO inserir regra para o colaborador
-                .antMatchers(HttpMethod.GET, "/campanha/**").hasRole("CRIADOR")
-                .antMatchers(HttpMethod.GET, "/campanha/**").hasRole("COLABORADOR")
-                .antMatchers(HttpMethod.POST, "/campanha/**").hasRole("CRIADOR")
-                .antMatchers(HttpMethod.PUT, "/campanha/**").hasRole("CRIADOR")
-                .antMatchers(HttpMethod.DELETE, "/campanha/**").hasRole("CRIADOR")
+
+//                .antMatchers(HttpMethod.GET, "/campanha/**").hasRole("CRIADOR")
+//                .antMatchers(HttpMethod.GET, "/campanha/**").hasRole("COLABORADOR")
+//                .antMatchers(HttpMethod.POST, "/campanha/**").hasRole("CRIADOR")
+//                .antMatchers(HttpMethod.PUT, "/campanha/**").hasRole("CRIADOR")
+//                .antMatchers(HttpMethod.DELETE, "/campanha/**").hasRole("CRIADOR")
                 //filtro de autenticação
                 .antMatchers(HttpMethod.POST, "/usuario/**").permitAll()
                 .and().addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
