@@ -30,11 +30,10 @@ public class CategoriaController {
             @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
-    @PostMapping("/{idCampanha}")
-    public CategoriaDTO create(@PathVariable("idCampanha") Integer idCampanha,
-                               @RequestBody @Valid CategoriaCreateDTO categoriaCreateDTO) {
+    @PostMapping
+    public CategoriaDTO create(@RequestBody @Valid CategoriaCreateDTO categoriaCreateDTO) {
         log.info("Criando categoria...");
-        CategoriaDTO categoria = categoriaService.create(idCampanha, categoriaCreateDTO);
+        CategoriaDTO categoria = categoriaService.create(categoriaCreateDTO);
         log.info("Categoria criada com sucesso!");
 
         return categoria;

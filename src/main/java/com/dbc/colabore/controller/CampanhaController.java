@@ -90,6 +90,27 @@ public class CampanhaController {
         return campanhaService.findByCampanhasConcluidas();
     }
 
+    @ApiOperation("Mostra uma lista das campanhas criadas pelo usuário.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+    })
+    @GetMapping("/lista-as-campanhas-criadas-pelo-usuario-logado")
+    public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioLogado(Integer idUsuario) throws RegraDeNegocioException {
+        return campanhaService.findByCampanhasCriadasPeloUsuarioLogado(idUsuario);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     @ApiOperation("Atualiza uma campanha existente através do id.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Campanha atualizada com sucesso!"),

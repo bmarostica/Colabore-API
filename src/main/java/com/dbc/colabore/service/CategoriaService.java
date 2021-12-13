@@ -19,14 +19,10 @@ import java.util.stream.Collectors;
 public class CategoriaService {
 
     private final CategoriaRepository categoriaRepository;
-    private final CampanhaRepository campanhaRepository;
     private final ObjectMapper objectMapper;
 
-    public CategoriaDTO create(Integer idCampanha, CategoriaCreateDTO categoriaCreateDTO) {
-        CampanhaEntity campanha = campanhaRepository.getById(idCampanha);
-
+    public CategoriaDTO create(CategoriaCreateDTO categoriaCreateDTO) {
         CategoriaEntity categoriaEntity = objectMapper.convertValue(categoriaCreateDTO, CategoriaEntity.class);
-        categoriaEntity.setCampanhaEntity(campanha);
         CategoriaEntity categoriaCriada = categoriaRepository.save(categoriaEntity);
         CategoriaDTO categoriaDTO = objectMapper.convertValue(categoriaCriada, CategoriaDTO.class);
         return categoriaDTO;
@@ -40,7 +36,7 @@ public class CategoriaService {
 
     public CategoriaEntity findById(Integer id) throws RegraDeNegocioException {
         CategoriaEntity categoriaEntity = categoriaRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Livro não localizado"));
+                .orElseThrow(() -> new RegraDeNegocioException("Categoria não localizada"));
         return categoriaEntity;
     }
 

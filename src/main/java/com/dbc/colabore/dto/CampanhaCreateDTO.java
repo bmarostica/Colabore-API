@@ -1,17 +1,14 @@
 package com.dbc.colabore.dto;
 
-import com.dbc.colabore.entity.CategoriaEntity;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class CampanhaCreateDTO {
@@ -28,6 +25,10 @@ public class CampanhaCreateDTO {
     @ApiModelProperty(value = "Descrição da Campanha")
     private String descricaoCampanha;
 
+    @NotNull
+    @ApiModelProperty(value = "Categorias da Campanha")
+    private Set<CategoriaCreateDTO> categorias;
+
     @NotBlank
     @ApiModelProperty(value = "Foto da Campanha")
     private String foto;
@@ -36,6 +37,7 @@ public class CampanhaCreateDTO {
     @NotNull
     @ApiModelProperty(value = "Encerramento da campanha")
     private LocalDate dataLimiteContribuicao;
+
 
     @NotNull
     @ApiModelProperty(value = "Define se qa campanha deve ser encerrada automaticamente ao atingir a meta")

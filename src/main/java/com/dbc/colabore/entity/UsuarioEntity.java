@@ -30,8 +30,9 @@ public class UsuarioEntity  implements Serializable, UserDetails {
     @Column(name = "foto_perfil")
     private String fotoPerfil;
 
-    @ManyToMany (mappedBy = "usuariosContribuidores")
-    private Set<CampanhaEntity> campanhas;
+    //esse mapeamento deve ser feito com doação
+//    @ManyToMany (mappedBy = "usuariosContribuidores")
+//    private Set<CampanhaEntity> campanhas;
 
     @JsonIgnore
     @ManyToMany

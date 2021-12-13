@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class CategoriaEntity {
     @Column(name = "NOME")
     private String nome;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_campanha", referencedColumnName = "id_campanha")
-    private CampanhaEntity campanhaEntity;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tagsCategoria")
+    private Set<CampanhaEntity> campanhaEntity;
 }

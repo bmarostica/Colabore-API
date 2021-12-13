@@ -1,5 +1,6 @@
 package com.dbc.colabore.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,7 +13,6 @@ public class CampanhaDTO extends CampanhaCreateDTO{
     private Integer idCampanha;
     private UsuarioDTO criadorCampanha;
     private BigDecimal totalArrecadado;
-    private List<UsuarioDTO> usuariosContribuidores;
     private LocalDateTime ultimaAlteracao;
     private Boolean statusCampanha;
 }
