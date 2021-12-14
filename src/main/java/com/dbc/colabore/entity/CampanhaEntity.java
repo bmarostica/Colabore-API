@@ -60,6 +60,9 @@ public class CampanhaEntity {
     @Column(name = "DATA_LIMITE_ARRECADACAO")
     private LocalDate dataLimiteContribuicao;
 
+    @OneToMany(mappedBy="campanhaEntity")
+    private Set<DoacaoEntity> doacoes;
+
 //    @JsonIgnore
 //    @ManyToMany
 //    @JoinTable(

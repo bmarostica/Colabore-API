@@ -43,6 +43,8 @@ public class UsuarioEntity  implements Serializable, UserDetails {
     )
     private List<PerfilEntity> perfil;
 
+    @OneToMany(mappedBy="usuarioEntity")
+    private Set<DoacaoEntity> doacoes;
 
     @JsonIgnore
     @Override
@@ -53,6 +55,7 @@ public class UsuarioEntity  implements Serializable, UserDetails {
         }
         return grantedAuthorities;
     }
+
 
     @Override
     public String getPassword() {

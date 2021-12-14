@@ -33,5 +33,5 @@ public class UsuarioDTO {
 
     private String fotoPerfil;
 
-    private List<PerfilDTO> perfis;
+//    private List<PerfilDTO> perfis;
 }

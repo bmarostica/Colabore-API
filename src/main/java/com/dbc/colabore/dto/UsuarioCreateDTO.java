@@ -32,5 +32,5 @@ public class UsuarioCreateDTO {
     private String fotoPerfil;
 
 
-    private List<Integer> perfis;
+//    private List<Integer> perfis;
 }
