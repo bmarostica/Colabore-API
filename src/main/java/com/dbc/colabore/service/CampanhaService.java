@@ -143,5 +143,10 @@ public class CampanhaService {
             throw new RegraDeNegocioException("Você não é o criador da campanha!");
         }
     }
+    public CampanhaDTO saveEntity(CampanhaEntity campanhaEntity){
+        CampanhaEntity campanha =  campanhaRepository.save(campanhaEntity);
+
+        return objectMapper.convertValue(campanha, CampanhaDTO.class);
+    }
 
 }
