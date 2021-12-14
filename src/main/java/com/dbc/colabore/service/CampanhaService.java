@@ -74,7 +74,7 @@ public class CampanhaService {
 //        CampanhaEntity salvarCampanha = campanhaRepository.save(campanhaEntity);
 //        CampanhaDTO campanhaDTO = objectMapper.convertValue(salvarCampanha, CampanhaDTO.class);
 //        return campanhaDTO.getTotalArrecadado();
-        return null
+        return null;
     }
 
     //funcionando
