@@ -3,6 +3,7 @@ package com.dbc.colabore.service;
 import com.dbc.colabore.dto.CampanhaCreateDTO;
 import com.dbc.colabore.dto.CampanhaDTO;
 import com.dbc.colabore.entity.CampanhaEntity;
+import com.dbc.colabore.entity.UsuarioEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.repository.CampanhaRepository;
 import com.dbc.colabore.repository.CategoriaRepository;
@@ -23,9 +24,17 @@ public class CampanhaService {
     private final ObjectMapper objectMapper;
 
     public CampanhaDTO create(CampanhaCreateDTO campanhaCreateDTO) {
+
+        int idUsuario = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+
+        UsuarioEntity usuarioEntity =  new UsuarioEntity();
         CampanhaEntity campanhaEntity = objectMapper.convertValue(campanhaCreateDTO, CampanhaEntity.class);
         campanhaEntity.setUltimaAlteracao(LocalDateTime.now());
         campanhaEntity.setStatusCampanha(true);
+
+        usuarioEntity.setIdUsuario(idUsuario);
+
+        campanhaEntity.setIdUsuario(usuarioEntity);
         CampanhaEntity campanhaCriada = campanhaRepository.save(campanhaEntity);
         CampanhaDTO campanhaDTO = objectMapper.convertValue(campanhaCriada, CampanhaDTO.class);
 
