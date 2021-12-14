@@ -7,6 +7,7 @@ import com.dbc.colabore.entity.UsuarioEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.repository.CampanhaRepository;
 import com.dbc.colabore.repository.CategoriaRepository;
+import com.dbc.colabore.repository.DoacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,14 +24,17 @@ import java.util.stream.Collectors;
 public class CampanhaService {
 
     private final CampanhaRepository campanhaRepository;
+    private final DoacaoRepository doacaoRepository;
     private final CategoriaService categoriaService;
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
 
     //funcionando
     public CampanhaDTO create(CampanhaCreateDTO campanhaCreateDTO) {
+
         UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
         UsuarioEntity usuarioEntity = objectMapper.convertValue(recuperaUsuario, UsuarioEntity.class);
+
         CampanhaEntity campanhaEntity = objectMapper.convertValue(campanhaCreateDTO, CampanhaEntity.class);
 
         Set<CategoriaEntity> categorias = campanhaCreateDTO.getCategorias().stream()
@@ -60,16 +64,17 @@ public class CampanhaService {
         return campanhaDTO;
     }
 
-    //funcionando
-    public BigDecimal doacao(Integer id, BigDecimal valorDoado) {
-        CampanhaEntity localizarCampanha = campanhaRepository.getById(id);
-        CampanhaEntity campanhaEntity = objectMapper.convertValue(localizarCampanha, CampanhaEntity.class);
-        BigDecimal totalArrecadado = campanhaEntity.getTotalArrecadado();
-        campanhaEntity.setTotalArrecadado(totalArrecadado.add(valorDoado));
-        campanhaEntity.setUltimaAlteracao(LocalDateTime.now());
-        CampanhaEntity salvarCampanha = campanhaRepository.save(campanhaEntity);
-        CampanhaDTO campanhaDTO = objectMapper.convertValue(salvarCampanha, CampanhaDTO.class);
-        return campanhaDTO.getTotalArrecadado();
+    // Criar Service de doação
+    public BigDecimal doacao(DoacaoCreateDTO doacaoCreateDTO) {
+//        CampanhaEntity localizarCampanha = campanhaRepository.getById(doacaoCreateDTO.getIdCampanha());
+//        CampanhaEntity campanhaEntity = objectMapper.convertValue(localizarCampanha, CampanhaEntity.class);
+//        BigDecimal totalArrecadado = campanhaEntity.getTotalArrecadado();
+//        campanhaEntity.setTotalArrecadado(totalArrecadado.add(valorDoado));
+//        campanhaEntity.setUltimaAlteracao(LocalDateTime.now());
+//        CampanhaEntity salvarCampanha = campanhaRepository.save(campanhaEntity);
+//        CampanhaDTO campanhaDTO = objectMapper.convertValue(salvarCampanha, CampanhaDTO.class);
+//        return campanhaDTO.getTotalArrecadado();
+        return null;
     }
 
     //funcionando
