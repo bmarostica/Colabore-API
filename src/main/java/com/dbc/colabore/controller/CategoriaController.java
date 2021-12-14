@@ -1,6 +1,7 @@
 package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.CategoriaCreateDTO;
+import com.dbc.colabore.dto.CategoriaCreateDTOComNome;
 import com.dbc.colabore.dto.CategoriaDTO;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.service.CategoriaService;
@@ -31,9 +32,9 @@ public class CategoriaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @PostMapping
-    public CategoriaDTO create(@RequestBody @Valid CategoriaCreateDTO categoriaCreateDTO) {
+    public CategoriaDTO create(@RequestBody @Valid CategoriaCreateDTOComNome categoriaCreateDTOComNome) throws RegraDeNegocioException {
         log.info("Criando categoria...");
-        CategoriaDTO categoria = categoriaService.create(categoriaCreateDTO);
+        CategoriaDTO categoria = categoriaService.create(categoriaCreateDTOComNome);
         log.info("Categoria criada com sucesso!");
 
         return categoria;

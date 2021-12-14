@@ -1,11 +1,9 @@
 package com.dbc.colabore.service;
 
-import com.dbc.colabore.dto.CategoriaCreateDTO;
+import com.dbc.colabore.dto.CategoriaCreateDTOComNome;
 import com.dbc.colabore.dto.CategoriaDTO;
-import com.dbc.colabore.entity.CampanhaEntity;
 import com.dbc.colabore.entity.CategoriaEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
-import com.dbc.colabore.repository.CampanhaRepository;
 import com.dbc.colabore.repository.CategoriaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +19,14 @@ public class CategoriaService {
     private final CategoriaRepository categoriaRepository;
     private final ObjectMapper objectMapper;
 
-    public CategoriaDTO create(CategoriaCreateDTO categoriaCreateDTO) {
-        CategoriaEntity categoriaEntity = objectMapper.convertValue(categoriaCreateDTO, CategoriaEntity.class);
+    public CategoriaDTO create(CategoriaCreateDTOComNome categoriaCreateDTOComNome) throws RegraDeNegocioException {
+        Integer buscaCategoria = categoriaRepository.findByNomeCategoriaIlike(categoriaCreateDTOComNome.getNome());
+
+        if(buscaCategoria > 0 ){
+            throw new RegraDeNegocioException("Essa categoria já existe!");
+        }
+
+        CategoriaEntity categoriaEntity = objectMapper.convertValue(categoriaCreateDTOComNome, CategoriaEntity.class);
         CategoriaEntity categoriaCriada = categoriaRepository.save(categoriaEntity);
         CategoriaDTO categoriaDTO = objectMapper.convertValue(categoriaCriada, CategoriaDTO.class);
         return categoriaDTO;

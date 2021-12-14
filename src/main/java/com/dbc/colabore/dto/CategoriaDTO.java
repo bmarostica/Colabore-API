@@ -10,5 +10,4 @@ public class CategoriaDTO extends CategoriaCreateDTO{
     private String nome;
 
 
-
 }

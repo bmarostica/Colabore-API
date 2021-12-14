@@ -27,15 +27,16 @@ public class CampanhaService {
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
 
+    //funcionando
     public CampanhaDTO create(CampanhaCreateDTO campanhaCreateDTO) {
         UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
         UsuarioEntity usuarioEntity = objectMapper.convertValue(recuperaUsuario, UsuarioEntity.class);
         CampanhaEntity campanhaEntity = objectMapper.convertValue(campanhaCreateDTO, CampanhaEntity.class);
 
         Set<CategoriaEntity> categorias = campanhaCreateDTO.getCategorias().stream()
-                .map(tags -> {
+                .map(categoriaCreateDTO -> {
                     try {
-                        return categoriaService.findById(tags.getIdCategoria());
+                        return categoriaService.findById(categoriaCreateDTO.getIdCategoria());
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
                     }
