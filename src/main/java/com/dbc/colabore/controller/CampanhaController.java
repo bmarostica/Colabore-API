@@ -2,6 +2,7 @@ package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.CampanhaCreateDTO;
 import com.dbc.colabore.dto.CampanhaDTO;
+import com.dbc.colabore.dto.DoacaoCreateDTO;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.service.CampanhaService;
 import io.swagger.annotations.ApiOperation;
@@ -65,8 +66,8 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @PutMapping("/realiza-a-doacao-de-um-valor")
-    public void doacao(Integer id, BigDecimal valorDoado) throws RegraDeNegocioException{
-        campanhaService.doacao(id, valorDoado);
+    public void doacao(@RequestBody @Valid DoacaoCreateDTO doacaoCreateDTO) throws RegraDeNegocioException{
+        campanhaService.doacao(doacaoCreateDTO);
     }
 
     @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
