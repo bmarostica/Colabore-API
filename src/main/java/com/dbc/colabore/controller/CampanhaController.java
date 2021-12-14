@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -70,15 +69,15 @@ public class CampanhaController {
         campanhaService.doacao(doacaoCreateDTO);
     }
 
-    @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
-    })
-    @GetMapping("/lista-as-campanhas-concluidas")
-    public List<CampanhaDTO> findByCampanhasConcluidas(){
-        return campanhaService.findByCampanhasConcluidas();
-    }
+//    @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
+//            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+//    })
+//    @GetMapping("/lista-as-campanhas-concluidas")
+//    public List<CampanhaDTO> findByCampanhasConcluidas(){
+//        return campanhaService.findByCampanhasConcluidas();
+//    }
 
     @ApiOperation("Mostra uma lista das campanhas criadas pelo usuário.")
     @ApiResponses(value = {
@@ -88,6 +87,28 @@ public class CampanhaController {
     @GetMapping("/lista-as-campanhas-criadas-pelo-usuario-logado")
     public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioLogado(Integer idUsuario) throws RegraDeNegocioException {
         return campanhaService.findByCampanhasCriadasPeloUsuarioLogado(idUsuario);
+    }
+
+    @ApiOperation("Deleta uma campanha existente através do id.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Campanha deletada com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+    })
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Integer id) throws RegraDeNegocioException {
+        campanhaService.delete(id);
+    }
+
+    @ApiOperation("Filtra as campanhas conforme meta se foi atingida ou não")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+    })
+    @GetMapping("/filtra-por-meta-atingida-ou-não-atingida")
+    public List<CampanhaDTO> findByMetaAtingidaOuNaoAtingida(@RequestParam (required = false) String meta) throws RegraDeNegocioException {
+        return campanhaService.findByMetaAtingidaOuNaoAtingida(meta);
     }
 
 
@@ -114,19 +135,8 @@ public class CampanhaController {
 
 
 
-    //TODO verificar método
-//    public List<CampanhaDTO> listAsCampanhasQueOUsuarioColaborou(CampanhaCreateDTO campanhaCreateDTO, UsuarioEntity id);
 
-    @ApiOperation("Deleta uma campanha existente através do id.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Campanha deletada com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
-    })
-    @DeleteMapping("/{id}")
-    public CampanhaDTO delete(@PathVariable("id") Integer id){
-        return null;
-    }
+
 
 
 
