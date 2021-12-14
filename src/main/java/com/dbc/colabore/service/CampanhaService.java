@@ -31,7 +31,6 @@ public class CampanhaService {
 
     //funcionando
     public CampanhaDTO create(CampanhaCreateDTO campanhaCreateDTO) {
-
         UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
         UsuarioEntity usuarioEntity = objectMapper.convertValue(recuperaUsuario, UsuarioEntity.class);
 
@@ -47,7 +46,6 @@ public class CampanhaService {
                     return null;
                 })
                 .collect(Collectors.toSet());
-
 
         campanhaEntity.setIdUsuario(usuarioEntity);
         campanhaEntity.setUltimaAlteracao(LocalDateTime.now().minusHours(3));
@@ -78,7 +76,7 @@ public class CampanhaService {
     }
 
     //funcionando
-    public void alteraStatusDaCampanha(Integer id) throws RegraDeNegocioException {
+    public void alteraStatusDaCampanhaQuandoMetaAtingida(Integer id) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity = findById(id);
         if (campanhaEntity.getTotalArrecadado().compareTo(campanhaEntity.getMetaArrecadacao()) >= 0) {
             campanhaEntity.setStatusCampanha(false);
@@ -90,9 +88,10 @@ public class CampanhaService {
     //funcionando
     public List<CampanhaDTO> findByCampanhasConcluidas() {
         return campanhaRepository.findByCampanhasConcluidas().stream()
-                .map(campanhaEntity -> objectMapper.convertValue(campanhaEntity, CampanhaDTO.class))
+                .map(this::mapeamentoEConversao)
                 .collect(Collectors.toList());
     }
+
 
     //funcionando
     public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioLogado(Integer idUsuario) throws RegraDeNegocioException {
@@ -102,17 +101,59 @@ public class CampanhaService {
         }
 
         return campanhaRepository.findByCampanhasCriadasPeloUsuarioLogado(idUsuario).stream()
-                .map(campanhaEntity -> objectMapper.convertValue(campanhaEntity, CampanhaDTO.class))
+                .map(this::mapeamentoEConversao)
                 .collect(Collectors.toList());
     }
 
 
+    //funcionando
     public List<CampanhaDTO> list() {
-        return campanhaRepository.findAll().stream()
-                .map(categoria -> objectMapper.convertValue(categoria, CampanhaDTO.class))
+        UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
+
+        return campanhaRepository.findyByIdDeUsuarioDiferenteDoLogado(recuperaUsuario.getIdUsuario()).stream()
+                .map(this::mapeamentoEConversao)
                 .collect(Collectors.toList());
     }
 
+
+
+
+
+
+
+    public CampanhaDTO update(int idCampanha, CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
+        CampanhaEntity campanhaEntity = findById(idCampanha);
+        // Regra de negocio para validar se o usuario foi o criador da campanha
+        verificaSeCriador(campanhaEntity);
+
+
+        return null;
+    }
+
+
+
+    //funcionando
+    public CampanhaDTO mapeamentoEConversao(CampanhaEntity campanhaEntity) {
+        CampanhaDTO campanhaDTO = objectMapper.convertValue(campanhaEntity, CampanhaDTO.class);
+        try {
+            campanhaDTO.setCategorias(campanhaEntity.getTagsCategoria().stream()
+                    .map(categoriaEntity -> objectMapper.convertValue(categoriaEntity, CategoriaDTO.class))
+                    .collect(Collectors.toSet()));
+            campanhaDTO.setCriadorCampanha(usuarioService.getById(campanhaEntity.getIdUsuario().getIdUsuario()));
+        } catch (RegraDeNegocioException e) {
+            e.printStackTrace();
+        }
+        return campanhaDTO;
+    }
+
+    private void verificaSeCriador(CampanhaEntity campanhaEntity) throws RegraDeNegocioException {
+        // Carrega o Id do usuario logado
+        int idUsuario = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+
+        if (campanhaEntity.getIdUsuario().getIdUsuario() != idUsuario) {
+            throw new RegraDeNegocioException("Você não é o criador da campanha!");
+        }
+    }
 
     public CampanhaEntity findById(Integer id) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity = campanhaRepository.findById(id)
@@ -126,23 +167,6 @@ public class CampanhaService {
         return campanhaDTO;
     }
 
-    public CampanhaDTO update(int idCampanha, CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
-        CampanhaEntity campanhaEntity = findById(idCampanha);
-        // Regra de negocio para validar se o usuario foi o criador da campanha
-        verificaSeCriador(campanhaEntity);
-
-
-        return null;
-    }
-
-    private void verificaSeCriador(CampanhaEntity campanhaEntity) throws RegraDeNegocioException {
-        // Carrega o Id do usuario logado
-        int idUsuario = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-
-        if (campanhaEntity.getIdUsuario().getIdUsuario() != idUsuario) {
-            throw new RegraDeNegocioException("Você não é o criador da campanha!");
-        }
-    }
     public CampanhaDTO saveEntity(CampanhaEntity campanhaEntity){
         CampanhaEntity campanha =  campanhaRepository.save(campanhaEntity);
 

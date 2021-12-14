@@ -1,8 +1,10 @@
 package com.dbc.colabore.service;
 
+import com.dbc.colabore.dto.CampanhaDTO;
 import com.dbc.colabore.dto.PerfilDTO;
 import com.dbc.colabore.dto.UsuarioCreateDTO;
 import com.dbc.colabore.dto.UsuarioDTO;
+import com.dbc.colabore.entity.CampanhaEntity;
 import com.dbc.colabore.entity.PerfilEntity;
 import com.dbc.colabore.entity.UsuarioEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
@@ -57,17 +59,21 @@ public class UsuarioService {
         return usuarioDTO;
     }
 
-
     public UsuarioEntity findById(int idUsuario) throws RegraDeNegocioException {
         return  usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado"));
     }
 
-
     public UsuarioDTO saveEntity(UsuarioEntity usuarioEntity){
         UsuarioEntity usuario =  usuarioRepository.save(usuarioEntity);
 
         return objectMapper.convertValue(usuario, UsuarioDTO.class);
+    }
+
+    public UsuarioDTO getById(Integer id) throws RegraDeNegocioException {
+        UsuarioEntity usuarioEntity = findById(id);
+        UsuarioDTO usuarioDTO = objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
+        return usuarioDTO;
     }
 
 }

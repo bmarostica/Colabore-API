@@ -55,8 +55,8 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @PutMapping("/altera-o-status-de-uma-campanha")
-    public void alteraStatusDaCampanha(Integer id) throws RegraDeNegocioException{
-        campanhaService.alteraStatusDaCampanha(id);
+    public void alteraStatusDaCampanhaQuandoMetaAtingida(Integer id) throws RegraDeNegocioException{
+        campanhaService.alteraStatusDaCampanhaQuandoMetaAtingida(id);
     }
 
     @ApiOperation("Realiza a doação de um valor para a campanha.")
