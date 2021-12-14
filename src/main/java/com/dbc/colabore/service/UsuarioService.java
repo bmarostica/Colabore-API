@@ -30,30 +30,30 @@ public class UsuarioService {
         entity.setEmail(usuarioCreateDTO.getEmail());
         entity.setFotoPerfil(usuarioCreateDTO.getFotoPerfil());
         entity.setSenha(new BCryptPasswordEncoder().encode(usuarioCreateDTO.getSenha()));
-        entity.setPerfil(
-                usuarioCreateDTO.getPerfis().stream()
-                        .map(perfilId -> perfilRepository.findById(perfilId)
-                                .orElse(null))
-                        .collect(Collectors.toList())
-        );
+//        entity.setPerfil(
+//                usuarioCreateDTO.getPerfis().stream()
+//                        .map(perfilId -> perfilRepository.findById(perfilId)
+//                                .orElse(null))
+//                        .collect(Collectors.toList())
+//        );
 
         UsuarioEntity save = usuarioRepository.save(entity);
         UsuarioDTO usuarioDTO = objectMapper.convertValue(save, UsuarioDTO.class);
-        usuarioDTO.setPerfis(save.getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
+//        usuarioDTO.setPerfis(save.getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
         return usuarioDTO;
 
     }
 
     public UsuarioDTO update(UsuarioCreateDTO usuarioCreateDTO) {
         int idUsuario = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-        List<PerfilEntity> perfilEntityList = perfilRepository.findAllById(usuarioCreateDTO.getPerfis());
+//        List<PerfilEntity> perfilEntityList = perfilRepository.findAllById(usuarioCreateDTO.getPerfis());
         UsuarioEntity usuarioEntity = objectMapper.convertValue(usuarioCreateDTO, UsuarioEntity.class);
         usuarioEntity.setIdUsuario(idUsuario);
         usuarioEntity.setSenha(new BCryptPasswordEncoder().encode(usuarioCreateDTO.getSenha()));
-        usuarioEntity.setPerfil(perfilEntityList);
+//        usuarioEntity.setPerfil(perfilEntityList);
         UsuarioEntity usuarioAtt = usuarioRepository.save(usuarioEntity);
         UsuarioDTO dto = objectMapper.convertValue(usuarioAtt, UsuarioDTO.class);
-        dto.setPerfis(usuarioAtt.getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
+//        dto.setPerfis(usuarioAtt.getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
 
         return dto;
     }
