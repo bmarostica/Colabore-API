@@ -10,6 +10,7 @@ import com.dbc.colabore.repository.CategoriaRepository;
 import com.dbc.colabore.repository.DoacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -85,11 +86,23 @@ public class CampanhaService {
         campanhaRepository.save(campanhaEntity);
     }
 
-    //funcionando
-    public List<CampanhaDTO> findByCampanhasConcluidas() {
-        return campanhaRepository.findByCampanhasConcluidas().stream()
-                .map(this::mapeamentoEConversao)
-                .collect(Collectors.toList());
+//
+//    public List<CampanhaDTO> findByCampanhasConcluidas() {
+//        return campanhaRepository.findByCampanhasConcluidas().stream()
+//                .map(this::mapeamentoEConversao)
+//                .collect(Collectors.toList());
+//    }
+
+    public List<CampanhaDTO> findByMetaAtingidaOuNaoAtingida(String meta) {
+        if (StringUtils.containsAnyIgnoreCase(meta, "atingida")) {
+            return campanhaRepository.findByMetaAtingida().stream()
+                    .map(this::mapeamentoEConversao)
+                    .collect(Collectors.toList());
+        } else {
+            return campanhaRepository.findByMetaNaoAtingida().stream()
+                    .map(this::mapeamentoEConversao)
+                    .collect(Collectors.toList());
+        }
     }
 
 
@@ -116,12 +129,7 @@ public class CampanhaService {
     }
 
 
-
-
-
-
-
-    public CampanhaDTO update(int idCampanha, CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
+    public CampanhaDTO update(Integer idCampanha, CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity = findById(idCampanha);
         // Regra de negocio para validar se o usuario foi o criador da campanha
         verificaSeCriador(campanhaEntity);
@@ -130,6 +138,13 @@ public class CampanhaService {
         return null;
     }
 
+    //funcionando
+    public void delete(Integer id) throws RegraDeNegocioException {
+        CampanhaEntity campanhaEntity = findById(id);
+        verificaSeCriador(campanhaEntity);
+
+        campanhaRepository.delete(campanhaEntity);
+    }
 
 
     //funcionando
