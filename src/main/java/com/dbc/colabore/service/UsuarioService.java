@@ -16,9 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,30 +31,20 @@ public class UsuarioService {
         entity.setEmail(usuarioCreateDTO.getEmail());
         entity.setFotoPerfil(usuarioCreateDTO.getFotoPerfil());
         entity.setSenha(new BCryptPasswordEncoder().encode(usuarioCreateDTO.getSenha()));
-//        entity.setPerfil(
-//                usuarioCreateDTO.getPerfis().stream()
-//                        .map(perfilId -> perfilRepository.findById(perfilId)
-//                                .orElse(null))
-//                        .collect(Collectors.toList())
-//        );
 
         UsuarioEntity save = usuarioRepository.save(entity);
         UsuarioDTO usuarioDTO = objectMapper.convertValue(save, UsuarioDTO.class);
-//        usuarioDTO.setPerfis(save.getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
         return usuarioDTO;
 
     }
 
     public UsuarioDTO update(UsuarioCreateDTO usuarioCreateDTO) {
         int idUsuario = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        List<PerfilEntity> perfilEntityList = perfilRepository.findAllById(usuarioCreateDTO.getPerfis());
         UsuarioEntity usuarioEntity = objectMapper.convertValue(usuarioCreateDTO, UsuarioEntity.class);
         usuarioEntity.setIdUsuario(idUsuario);
         usuarioEntity.setSenha(new BCryptPasswordEncoder().encode(usuarioCreateDTO.getSenha()));
-//        usuarioEntity.setPerfil(perfilEntityList);
         UsuarioEntity usuarioAtt = usuarioRepository.save(usuarioEntity);
         UsuarioDTO dto = objectMapper.convertValue(usuarioAtt, UsuarioDTO.class);
-//        dto.setPerfis(usuarioAtt.getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
 
         return dto;
     }
@@ -67,16 +55,19 @@ public class UsuarioService {
         int idUsuario = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findById(idUsuario);
         UsuarioDTO usuarioDTO =  objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
-        // usuarioDTO.setPerfis(usuarioEntity.get().getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
 
         return usuarioDTO;
     }
 
+    public UsuarioEntity findById(int idUsuario) throws RegraDeNegocioException {
+        return  usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado"));
+    }
 
-    public UsuarioEntity findById(Integer id) throws RegraDeNegocioException {
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Campanha não localizado"));
-        return usuarioEntity;
+    public UsuarioDTO saveEntity(UsuarioEntity usuarioEntity){
+        UsuarioEntity usuario =  usuarioRepository.save(usuarioEntity);
+
+        return objectMapper.convertValue(usuario, UsuarioDTO.class);
     }
 
     public UsuarioDTO getById(Integer id) throws RegraDeNegocioException {
@@ -84,4 +75,5 @@ public class UsuarioService {
         UsuarioDTO usuarioDTO = objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
         return usuarioDTO;
     }
+
 }

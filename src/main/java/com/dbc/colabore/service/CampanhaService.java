@@ -161,7 +161,6 @@ public class CampanhaService {
         return campanhaDTO;
     }
 
-    //funcionando
     private void verificaSeCriador(CampanhaEntity campanhaEntity) throws RegraDeNegocioException {
         // Carrega o Id do usuario logado
         int idUsuario = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
@@ -181,6 +180,12 @@ public class CampanhaService {
         CampanhaEntity campanhaEntity = findById(id);
         CampanhaDTO campanhaDTO = objectMapper.convertValue(campanhaEntity, CampanhaDTO.class);
         return campanhaDTO;
+    }
+
+    public CampanhaDTO saveEntity(CampanhaEntity campanhaEntity){
+        CampanhaEntity campanha =  campanhaRepository.save(campanhaEntity);
+
+        return objectMapper.convertValue(campanha, CampanhaDTO.class);
     }
 
 }
