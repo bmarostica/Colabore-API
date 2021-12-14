@@ -1,10 +1,13 @@
 package com.dbc.colabore.service;
 
+import com.dbc.colabore.dto.CampanhaDTO;
 import com.dbc.colabore.dto.PerfilDTO;
 import com.dbc.colabore.dto.UsuarioCreateDTO;
 import com.dbc.colabore.dto.UsuarioDTO;
+import com.dbc.colabore.entity.CampanhaEntity;
 import com.dbc.colabore.entity.PerfilEntity;
 import com.dbc.colabore.entity.UsuarioEntity;
+import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.repository.PerfilRepository;
 import com.dbc.colabore.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,6 +69,19 @@ public class UsuarioService {
         UsuarioDTO usuarioDTO =  objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
         // usuarioDTO.setPerfis(usuarioEntity.get().getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
 
+        return usuarioDTO;
+    }
+
+
+    public UsuarioEntity findById(Integer id) throws RegraDeNegocioException {
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Campanha não localizado"));
+        return usuarioEntity;
+    }
+
+    public UsuarioDTO getById(Integer id) throws RegraDeNegocioException {
+        UsuarioEntity usuarioEntity = findById(id);
+        UsuarioDTO usuarioDTO = objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
         return usuarioDTO;
     }
 }

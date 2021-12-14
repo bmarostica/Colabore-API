@@ -14,14 +14,20 @@ public interface CampanhaRepository extends JpaRepository<CampanhaEntity, Intege
     @Query(value = "SELECT * " +
             "FROM CAMPANHA " +
             "WHERE STATUS_CAMPANHA = FALSE"
-    ,nativeQuery = true)
+            , nativeQuery = true)
     List<CampanhaEntity> findByCampanhasConcluidas();
 
     @Query(value = "SELECT * " +
             "FROM CAMPANHA " +
             "WHERE ID_USUARIO = :idUsuario"
-    ,nativeQuery = true)
+            , nativeQuery = true)
     List<CampanhaEntity> findByCampanhasCriadasPeloUsuarioLogado(Integer idUsuario);
+
+    @Query(value = "SELECT * " +
+            "FROM CAMPANHA " +
+            "WHERE ID_USUARIO != :idUsuario"
+            , nativeQuery = true)
+    List<CampanhaEntity> findyByIdDeUsuarioDiferenteDoLogado(Integer idUsuario);
 
 
 }

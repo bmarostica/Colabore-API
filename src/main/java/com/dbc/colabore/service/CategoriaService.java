@@ -44,6 +44,12 @@ public class CategoriaService {
         return categoriaEntity;
     }
 
+    public CategoriaDTO getById(Integer id) throws RegraDeNegocioException {
+        CategoriaEntity entity = findById(id);
+        CategoriaDTO dto = objectMapper.convertValue(entity, CategoriaDTO.class);
+        return dto;
+    }
+
 
     public void delete(Integer id) throws RegraDeNegocioException {
         CategoriaEntity categoriaEntity = findById(id);
