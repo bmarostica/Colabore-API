@@ -64,7 +64,7 @@ public class UsuarioService {
         int idUsuario = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findById(idUsuario);
         UsuarioDTO usuarioDTO =  objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
-        usuarioDTO.setPerfis(usuarioEntity.get().getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
+        // usuarioDTO.setPerfis(usuarioEntity.get().getPerfil().stream().map(perfilEntity -> objectMapper.convertValue(perfilEntity, PerfilDTO.class)).collect(Collectors.toList()));
 
         return usuarioDTO;
     }

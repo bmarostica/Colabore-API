@@ -1,6 +1,6 @@
 package com.dbc.colabore.service;
 
-import com.dbc.colabore.dto.CategoriaCreateDTO;
+import com.dbc.colabore.dto.CategoriaCreateDTOComNome;
 import com.dbc.colabore.dto.CategoriaDTO;
 import com.dbc.colabore.entity.CategoriaEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
@@ -19,8 +19,14 @@ public class CategoriaService {
     private final CategoriaRepository categoriaRepository;
     private final ObjectMapper objectMapper;
 
-    public CategoriaDTO create(CategoriaCreateDTO categoriaCreateDTO) {
-        CategoriaEntity categoriaEntity = objectMapper.convertValue(categoriaCreateDTO, CategoriaEntity.class);
+    public CategoriaDTO create(CategoriaCreateDTOComNome categoriaCreateDTOComNome) throws RegraDeNegocioException {
+        Integer buscaCategoria = categoriaRepository.findByNomeCategoriaIlike(categoriaCreateDTOComNome.getNome());
+
+        if(buscaCategoria > 0 ){
+            throw new RegraDeNegocioException("Essa categoria já existe!");
+        }
+
+        CategoriaEntity categoriaEntity = objectMapper.convertValue(categoriaCreateDTOComNome, CategoriaEntity.class);
         CategoriaEntity categoriaCriada = categoriaRepository.save(categoriaEntity);
         CategoriaDTO categoriaDTO = objectMapper.convertValue(categoriaCriada, CategoriaDTO.class);
         return categoriaDTO;
@@ -34,7 +40,7 @@ public class CategoriaService {
 
     public CategoriaEntity findById(Integer id) throws RegraDeNegocioException {
         CategoriaEntity categoriaEntity = categoriaRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Livro não localizado"));
+                .orElseThrow(() -> new RegraDeNegocioException("Categoria não localizada"));
         return categoriaEntity;
     }
 

@@ -1,9 +1,11 @@
 package com.dbc.colabore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,11 +20,7 @@ public class CategoriaEntity {
     @Column(name = "NOME")
     private String nome;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "CAMPANHA_CATEGORIA",
-            joinColumns = @JoinColumn(name = "id_campanha"),
-            inverseJoinColumns = @JoinColumn(name = "id_categoria")
-    )
-    private CampanhaEntity campanhaEntity;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tagsCategoria")
+    private Set<CampanhaEntity> campanhaEntity;
 }

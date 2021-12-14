@@ -1,12 +1,13 @@
 package com.dbc.colabore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -35,7 +36,16 @@ public class CampanhaEntity {
     @Column(name = "TOTAL_ARRECADADO")
     private BigDecimal totalArrecadado;
 
-    @OneToMany(mappedBy = "campanhaEntity", fetch = FetchType.LAZY)
+    @Column(name = "CONCLUI_AUTOMATICAMENTE_CAMPANHA")
+    private Boolean concluiCampanhaAutomaticamente;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "CAMPANHA_CATEGORIA",
+            joinColumns = @JoinColumn(name = "id_campanha"),
+            inverseJoinColumns = @JoinColumn(name = "id_categoria")
+    )
     private Set<CategoriaEntity> tagsCategoria;
 
     @Column(name = "ULTIMA_ALTERACAO")
@@ -47,12 +57,16 @@ public class CampanhaEntity {
     @Column(name = "DESCRICAO_CAMPANHA")
     private String descricaoCampanha;
 
-    @ManyToMany
-    @JoinTable(
-            name = "USUARIO_CAMPANHA",
-            joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name = "id_campanha")
-    )
-    private Set<UsuarioEntity> usuariosContribuidores;
+    @Column(name = "DATA_LIMITE_ARRECADACAO")
+    private LocalDate dataLimiteContribuicao;
+
+//    @JsonIgnore
+//    @ManyToMany
+//    @JoinTable(
+//            name = "USUARIO_CAMPANHA",
+//            joinColumns = @JoinColumn(name = "id_usuario"),
+//            inverseJoinColumns = @JoinColumn(name = "id_campanha")
+//    )
+//    private Set<UsuarioEntity> usuariosContribuidores;
 
 }

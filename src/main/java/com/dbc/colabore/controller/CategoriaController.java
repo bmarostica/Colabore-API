@@ -1,6 +1,7 @@
 package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.CategoriaCreateDTO;
+import com.dbc.colabore.dto.CategoriaCreateDTOComNome;
 import com.dbc.colabore.dto.CategoriaDTO;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.service.CategoriaService;
@@ -31,8 +32,12 @@ public class CategoriaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @PostMapping
-    public CategoriaDTO create(@RequestBody @Valid CategoriaCreateDTO categoriaCreateDTO){
-        return categoriaService.create(categoriaCreateDTO);
+    public CategoriaDTO create(@RequestBody @Valid CategoriaCreateDTOComNome categoriaCreateDTOComNome) throws RegraDeNegocioException {
+        log.info("Criando categoria...");
+        CategoriaDTO categoria = categoriaService.create(categoriaCreateDTOComNome);
+        log.info("Categoria criada com sucesso!");
+
+        return categoria;
     }
 
     @ApiOperation("Mostra uma lista com todas as categorias.")
@@ -41,7 +46,7 @@ public class CategoriaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
     })
     @GetMapping
-    public List<CategoriaDTO> list(){
+    public List<CategoriaDTO> list() {
         return categoriaService.list();
     }
 
@@ -53,8 +58,10 @@ public class CategoriaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id")Integer id) throws RegraDeNegocioException {
+    public void delete(@PathVariable("id") Integer id) throws RegraDeNegocioException {
+        log.info("Deletando categoria...");
         categoriaService.delete(id);
+        log.info("Categoria deletada com sucesso!");
     }
 
 
