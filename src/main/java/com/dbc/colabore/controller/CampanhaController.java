@@ -58,17 +58,6 @@ public class CampanhaController {
         campanhaService.alteraStatusDaCampanhaQuandoMetaAtingida(id);
     }
 
-    @ApiOperation("Realiza a doação de um valor para a campanha.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Doação realizada com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
-    })
-    @PutMapping("/realiza-a-doacao-de-um-valor")
-    public void doacao(@RequestBody @Valid DoacaoCreateDTO doacaoCreateDTO) throws RegraDeNegocioException{
-        campanhaService.doacao(doacaoCreateDTO);
-    }
-
 //    @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
 //    @ApiResponses(value = {
 //            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
@@ -129,8 +118,8 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @PutMapping("/{id}")
-    public CampanhaDTO update(@PathVariable("id") Integer id, @RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO){
-        return null;
+    public CampanhaDTO update(@PathVariable("id") Integer id, @RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
+        return campanhaService.update(id, campanhaCreateDTO);
     }
 
 
