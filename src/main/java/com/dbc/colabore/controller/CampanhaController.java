@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -68,26 +67,15 @@ public class CampanhaController {
         campanhaService.alteraStatusDaCampanhaQuandoMetaAtingida(id);
     }
 
-//    @ApiOperation("Realiza a doação de um valor para a campanha.")
+//    @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
 //    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Doação realizada com sucesso!"),
-//            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-//            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+//            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
+//            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
 //    })
-//    @PutMapping("/realiza-a-doacao-de-um-valor")
-//    public void doacao(@RequestBody @Valid DoacaoCreateDTO doacaoCreateDTO) throws RegraDeNegocioException{
-//        campanhaService.doacao(doacaoCreateDTO);
+//    @GetMapping("/lista-as-campanhas-concluidas")
+//    public List<CampanhaDTO> findByCampanhasConcluidas(){
+//        return campanhaService.findByCampanhasConcluidas();
 //    }
-
-    @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
-    })
-    @GetMapping("/lista-as-campanhas-concluidas")
-    public List<CampanhaDTO> findByCampanhasConcluidas(){
-        return campanhaService.findByCampanhasConcluidas();
-    }
 
     @ApiOperation("Mostra uma lista das campanhas criadas pelo usuário.")
     @ApiResponses(value = {
@@ -99,22 +87,6 @@ public class CampanhaController {
         return campanhaService.findByCampanhasCriadasPeloUsuarioLogado(idUsuario);
     }
 
-    @ApiOperation("Atualiza uma campanha existente através do id.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Campanha atualizada com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
-    })
-    @PutMapping("/{id}")
-    public CampanhaDTO update(@PathVariable("id") Integer id, @RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO){
-        return null;
-    }
-
-
-
-    //TODO verificar método
-//    public List<CampanhaDTO> listAsCampanhasQueOUsuarioColaborou(CampanhaCreateDTO campanhaCreateDTO, UsuarioEntity id);
-
     @ApiOperation("Deleta uma campanha existente através do id.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Campanha deletada com sucesso!"),
@@ -122,9 +94,47 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @DeleteMapping("/{id}")
-    public CampanhaDTO delete(@PathVariable("id") Integer id){
-        return null;
+    public void delete(@PathVariable("id") Integer id) throws RegraDeNegocioException {
+        campanhaService.delete(id);
     }
+
+    @ApiOperation("Filtra as campanhas conforme meta se foi atingida ou não")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+    })
+    @GetMapping("/filtra-por-meta-atingida-ou-não-atingida")
+    public List<CampanhaDTO> findByMetaAtingidaOuNaoAtingida(@RequestParam (required = false) String meta) throws RegraDeNegocioException {
+        return campanhaService.findByMetaAtingidaOuNaoAtingida(meta);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    @ApiOperation("Atualiza uma campanha existente através do id.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Campanha atualizada com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+    })
+    @PutMapping("/{id}")
+    public CampanhaDTO update(@PathVariable("id") Integer id, @RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
+        return campanhaService.update(id, campanhaCreateDTO);
+    }
+
+
+
+
+
 
 
 

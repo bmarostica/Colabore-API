@@ -63,16 +63,8 @@ public class CampanhaEntity {
     @Column(name = "DATA_LIMITE_ARRECADACAO")
     private LocalDate dataLimiteContribuicao;
 
-    @OneToMany(mappedBy="campanhaEntity")
-    private Set<DoacaoEntity> doacoes;
 
-//    @JsonIgnore
-//    @ManyToMany
-//    @JoinTable(
-//            name = "USUARIO_CAMPANHA",
-//            joinColumns = @JoinColumn(name = "id_usuario"),
-//            inverseJoinColumns = @JoinColumn(name = "id_campanha")
-//    )
-//    private Set<UsuarioEntity> usuariosContribuidores;
+    @OneToMany(mappedBy="campanhaEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<DoacaoEntity> doacoes;
 
 }
