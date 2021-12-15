@@ -139,7 +139,7 @@ public class CampanhaController {
 
 
     @PostMapping("/uploadFotoCampanha")
-    public CampanhaDTO uploadFile(@RequestParam("file") MultipartFile file, Integer idCampanha) throws RegraDeNegocioException {
+    public CampanhaDTO uploadFile(@RequestPart("file") MultipartFile file, Integer idCampanha) throws RegraDeNegocioException {
         CampanhaDTO campanhaDTO = campanhaService.salvarFotoCampanha(file, idCampanha);
 
         return campanhaDTO;

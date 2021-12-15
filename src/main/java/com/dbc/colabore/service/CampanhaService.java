@@ -225,7 +225,7 @@ public class CampanhaService {
 
         try {
 
-            // Check if the file's name contains invalid characters
+           
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }

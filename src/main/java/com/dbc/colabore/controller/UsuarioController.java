@@ -64,7 +64,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/uploadFotoPerfil")
-    public UsuarioDTO uploadFile(@RequestParam("file") MultipartFile file, Integer idUsuario) throws RegraDeNegocioException {
+    public UsuarioDTO uploadFile(@RequestPart("file") MultipartFile file, Integer idUsuario) throws RegraDeNegocioException {
         UsuarioDTO usuarioDTO = usuarioService.salvarFotoPerfil(file, idUsuario);
 
         return usuarioDTO;
