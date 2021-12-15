@@ -74,8 +74,8 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
     })
     @GetMapping("/lista-as-campanhas-criadas-pelo-usuario-logado")
-    public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioLogado(Integer idUsuario) throws RegraDeNegocioException {
-        return campanhaService.findByCampanhasCriadasPeloUsuarioLogado(idUsuario);
+    public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioQueEstaLogado() throws RegraDeNegocioException {
+        return campanhaService.findByCampanhasCriadasPeloUsuarioQueEstaLogado();
     }
 
     @ApiOperation("Deleta uma campanha existente através do id.")
