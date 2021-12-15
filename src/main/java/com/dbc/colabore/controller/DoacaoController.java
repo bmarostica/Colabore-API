@@ -25,14 +25,14 @@ public class DoacaoController {
 
     private final DoacaoService doacaoService;
 
-    @ApiOperation("Realiza a doação de um valor para a campanha.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Doação realizada com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
-    })
-    @PutMapping("/realiza-a-doacao-de-um-valor")
-    public void doacao(@RequestBody @Valid DoacaoCreateDTO doacaoCreateDTO) throws RegraDeNegocioException {
-        doacaoService.doacao(doacaoCreateDTO);
-    }
+//    @ApiOperation("Realiza a doação de um valor para a campanha.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Doação realizada com sucesso!"),
+//            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+//            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+//    })
+//    @PutMapping("/realiza-a-doacao-de-um-valor")
+//    public void doacao(@RequestBody @Valid DoacaoCreateDTO doacaoCreateDTO) throws RegraDeNegocioException {
+//        doacaoService.doacao(doacaoCreateDTO);
+//    }
 }

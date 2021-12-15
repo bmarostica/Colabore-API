@@ -19,13 +19,9 @@ public class DoacaoEntity {
     @Column(name = "VALOR_DOACAO")
     private String valor;
 
-    @Column(name = "DATA_DOACAO")
-    private LocalDate dataDoacao;
-
     @ManyToOne
     @JoinColumn(name="id_usuario", nullable=false)
     private UsuarioEntity usuarioEntity;
-
 
     @ManyToOne
     @JoinColumn(name="id_campanha", nullable=false)
