@@ -100,13 +100,10 @@ public class CampanhaService {
 
 
     //funcionando
-    public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioLogado(Integer idUsuario) throws RegraDeNegocioException {
-        int usuarioLogado = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-        if (usuarioLogado != idUsuario) {
-            throw new RegraDeNegocioException("Você não é o criador da campanha!");
-        }
+    public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioQueEstaLogado() {
+        UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
 
-        return campanhaRepository.findByCampanhasCriadasPeloUsuarioLogado(idUsuario).stream()
+        return campanhaRepository.findByCampanhasCriadasPeloUsuarioLogado(recuperaUsuario.getIdUsuario()).stream()
                 .map(this::mapeamentoEConversao)
                 .collect(Collectors.toList());
     }
