@@ -28,7 +28,9 @@ public class UsuarioEntity  implements Serializable, UserDetails {
     @Column(name = "senha")
     private String senha;
     @Column(name = "foto_perfil")
-    private String fotoPerfil;
+    private byte[] fotoPerfil;
+    @Column(name = "file_type")
+    private String fileType;
 
     //esse mapeamento deve ser feito com doação
 //    @ManyToMany (mappedBy = "usuariosContribuidores")

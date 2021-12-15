@@ -29,10 +29,6 @@ public class CampanhaCreateDTO {
     @ApiModelProperty(value = "Categorias da Campanha")
     private Set<CategoriaCreateDTO> categorias;
 
-    @NotBlank
-    @ApiModelProperty(value = "Foto da Campanha")
-    private String foto;
-
     @Future
     @NotNull
     @ApiModelProperty(value = "Encerramento da campanha")

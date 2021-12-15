@@ -7,6 +7,7 @@ import com.dbc.colabore.dto.UsuarioDTO;
 import com.dbc.colabore.entity.CampanhaEntity;
 import com.dbc.colabore.entity.PerfilEntity;
 import com.dbc.colabore.entity.UsuarioEntity;
+import com.dbc.colabore.exception.FileStorageException;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.repository.PerfilRepository;
 import com.dbc.colabore.repository.UsuarioRepository;
@@ -15,7 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -29,7 +33,6 @@ public class UsuarioService {
         UsuarioEntity entity = objectMapper.convertValue(usuarioCreateDTO, UsuarioEntity.class);
         entity.setNome(usuarioCreateDTO.getNome());
         entity.setEmail(usuarioCreateDTO.getEmail());
-        entity.setFotoPerfil(usuarioCreateDTO.getFotoPerfil());
         entity.setSenha(new BCryptPasswordEncoder().encode(usuarioCreateDTO.getSenha()));
 
         UsuarioEntity save = usuarioRepository.save(entity);
@@ -74,6 +77,30 @@ public class UsuarioService {
         UsuarioEntity usuarioEntity = findById(id);
         UsuarioDTO usuarioDTO = objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
         return usuarioDTO;
+    }
+
+
+    public UsuarioDTO salvarFotoPerfil(MultipartFile file, int idUsuario) throws RegraDeNegocioException {
+        UsuarioEntity usuarioEntity= findById(idUsuario);
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        try {
+
+            // Check if the file's name contains invalid characters
+            if(fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+
+            usuarioEntity.setFileType(file.getContentType());
+            usuarioEntity.setFotoPerfil(file.getBytes());
+
+            UsuarioDTO usuarioDTO = saveEntity(usuarioEntity);
+
+            return usuarioDTO;
+        } catch (IOException ex) {
+            throw new FileStorageException("Não foi possível armazenar o arquivo " + fileName + ". Por favor, tente novamente!", ex);
+        }
     }
 
 }

@@ -3,6 +3,9 @@ package com.dbc.colabore.controller;
 import com.dbc.colabore.dto.CampanhaCreateDTO;
 import com.dbc.colabore.dto.CampanhaDTO;
 import com.dbc.colabore.dto.DoacaoCreateDTO;
+import com.dbc.colabore.dto.UsuarioDTO;
+import com.dbc.colabore.entity.CampanhaEntity;
+import com.dbc.colabore.entity.UsuarioEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.service.CampanhaService;
 import io.swagger.annotations.ApiOperation;
@@ -10,8 +13,14 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -59,16 +68,16 @@ public class CampanhaController {
         campanhaService.alteraStatusDaCampanhaQuandoMetaAtingida(id);
     }
 
-    @ApiOperation("Realiza a doação de um valor para a campanha.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Doação realizada com sucesso!"),
-            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
-            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
-    })
-    @PutMapping("/realiza-a-doacao-de-um-valor")
-    public void doacao(@RequestBody @Valid DoacaoCreateDTO doacaoCreateDTO) throws RegraDeNegocioException{
-        campanhaService.doacao(doacaoCreateDTO);
-    }
+//    @ApiOperation("Realiza a doação de um valor para a campanha.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Doação realizada com sucesso!"),
+//            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+//            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+//    })
+//    @PutMapping("/realiza-a-doacao-de-um-valor")
+//    public void doacao(@RequestBody @Valid DoacaoCreateDTO doacaoCreateDTO) throws RegraDeNegocioException{
+//        campanhaService.doacao(doacaoCreateDTO);
+//    }
 
     @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
     @ApiResponses(value = {
@@ -89,17 +98,6 @@ public class CampanhaController {
     public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioLogado(Integer idUsuario) throws RegraDeNegocioException {
         return campanhaService.findByCampanhasCriadasPeloUsuarioLogado(idUsuario);
     }
-
-
-
-
-
-
-
-
-
-
-
 
     @ApiOperation("Atualiza uma campanha existente através do id.")
     @ApiResponses(value = {
@@ -130,6 +128,22 @@ public class CampanhaController {
 
 
 
+    @PostMapping("/uploadFotoCampanha")
+    public CampanhaDTO uploadFile(@RequestParam("file") MultipartFile file, Integer idCampanha) throws RegraDeNegocioException {
+        CampanhaDTO campanhaDTO = campanhaService.salvarFotoCampanha(file, idCampanha);
+
+        return campanhaDTO;
+    }
+
+    @GetMapping("/downloadFotoCampanha/{idCampanha}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable int idCampanha) throws RegraDeNegocioException {
+        CampanhaEntity campanhaEntity = campanhaService.findById(idCampanha);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(campanhaEntity.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + campanhaEntity.getIdUsuario() + "\"")
+                .body(new ByteArrayResource(campanhaEntity.getFoto()));
+    }
 
 
 }
