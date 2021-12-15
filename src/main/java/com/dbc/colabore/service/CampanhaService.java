@@ -12,31 +12,32 @@ import com.dbc.colabore.repository.DoacaoRepository;
 import com.dbc.colabore.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CampanhaService {
 
     private final CampanhaRepository campanhaRepository;
-    private final DoacaoRepository doacaoRepository;
     private final CategoriaService categoriaService;
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
-    private final UsuarioRepository usuarioRepository;
-    private final CategoriaRepository categoriaRepository;
 
-    //funcionando
     public CampanhaDTO create(CampanhaCreateDTO campanhaCreateDTO) {
         UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
         UsuarioEntity usuarioEntity = objectMapper.convertValue(recuperaUsuario, UsuarioEntity.class);
@@ -69,22 +70,32 @@ public class CampanhaService {
         return campanhaDTO;
     }
 
-    //funcionando
-    public void alteraStatusDaCampanhaQuandoMetaAtingida(Integer id) throws RegraDeNegocioException {
-        CampanhaEntity campanhaEntity = findById(id);
-        if (campanhaEntity.getTotalArrecadado().compareTo(campanhaEntity.getMetaArrecadacao()) >= 0) {
-            campanhaEntity.setStatusCampanha(false);
-        } else
-            throw new RegraDeNegocioException("A meta ainda não foi atingida");
-        campanhaRepository.save(campanhaEntity);
+
+    public void alteraStatusDaCampanhaQuandoMetaAtingida() {
+        campanhaRepository.findAll().stream()
+                .forEach(campanhaEntity -> {
+                    if (campanhaEntity.getConcluiCampanhaAutomaticamente() &&
+                            campanhaEntity.getTotalArrecadado().compareTo(campanhaEntity.getMetaArrecadacao()) >= 0) {
+                        campanhaEntity.setStatusCampanha(false);
+
+                        campanhaRepository.save(campanhaEntity);
+                    }
+                });
     }
 
-//
-//    public List<CampanhaDTO> findByCampanhasConcluidas() {
-//        return campanhaRepository.findByCampanhasConcluidas().stream()
-//                .map(this::mapeamentoEConversao)
-//                .collect(Collectors.toList());
-//    }
+
+    public void alteraStatusDaCampanhaQuandoAtingeDataDeEncerramento() {
+        campanhaRepository.findAll().stream()
+                .forEach(campanhaEntity -> {
+                    if (campanhaEntity.getDataLimiteContribuicao().equals(LocalDate.now())) {
+                        log.info(String.valueOf(campanhaEntity.getDataLimiteContribuicao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).equals(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))));
+                        campanhaEntity.setStatusCampanha(false);
+                        campanhaRepository.save(campanhaEntity);
+                    }
+                });
+
+    }
+
 
     public List<CampanhaDTO> findByMetaAtingidaOuNaoAtingida(String meta) {
         if (StringUtils.containsAnyIgnoreCase(meta, "atingida")) {
@@ -99,7 +110,6 @@ public class CampanhaService {
     }
 
 
-    //funcionando
     public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioQueEstaLogado() {
         UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
 
@@ -109,7 +119,6 @@ public class CampanhaService {
     }
 
 
-    //funcionando
     public List<CampanhaDTO> list() {
         UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
 
@@ -119,7 +128,6 @@ public class CampanhaService {
     }
 
 
-    //funcionando!?
     public CampanhaDTO update(Integer idCampanha, CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity = findById(idCampanha);
         verificaSeCriador(campanhaEntity);
@@ -151,9 +159,6 @@ public class CampanhaService {
             campanhaEntity.setUltimaAlteracao(LocalDateTime.now().minusHours(3));
 
             CampanhaEntity campanhaCriada = campanhaRepository.save(campanhaEntity);
-
-
-
             CampanhaDTO campanhaDTO = objectMapper.convertValue(campanhaCriada, CampanhaDTO.class);
             campanhaDTO.setCategorias(campanhaEntity.getTagsCategoria().stream()
                     .map(categoriaEntity -> objectMapper.convertValue(categoriaEntity, CategoriaDTO.class))
@@ -164,7 +169,6 @@ public class CampanhaService {
         }
     }
 
-    //funcionando
     public void delete(Integer id) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity = findById(id);
         verificaSeCriador(campanhaEntity);
@@ -173,7 +177,6 @@ public class CampanhaService {
     }
 
 
-    //funcionando
     public CampanhaDTO mapeamentoEConversao(CampanhaEntity campanhaEntity) {
         CampanhaDTO campanhaDTO = objectMapper.convertValue(campanhaEntity, CampanhaDTO.class);
         try {
@@ -188,7 +191,6 @@ public class CampanhaService {
     }
 
     private void verificaSeCriador(CampanhaEntity campanhaEntity) throws RegraDeNegocioException {
-        // Carrega o Id do usuario logado
         int idUsuario = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 
         if (campanhaEntity.getIdUsuario().getIdUsuario() != idUsuario) {
