@@ -29,6 +29,7 @@ public class CampanhaCreateDTO {
     @ApiModelProperty(value = "Categorias da Campanha")
     private Set<CategoriaCreateDTO> categorias;
 
+
     @NotBlank
     @ApiModelProperty(value = "Foto da Campanha")
     private byte[] foto;
@@ -40,7 +41,7 @@ public class CampanhaCreateDTO {
 
 
     @NotNull
-    @ApiModelProperty(value = "Define se qa campanha deve ser encerrada automaticamente ao atingir a meta")
+    @ApiModelProperty(value = "Define se a campanha deve ser encerrada automaticamente ao atingir a meta")
     private Boolean concluiCampanhaAutomaticamente;
 
 }

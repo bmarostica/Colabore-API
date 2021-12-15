@@ -4,6 +4,7 @@ import com.dbc.colabore.dto.*;
 import com.dbc.colabore.entity.CampanhaEntity;
 import com.dbc.colabore.entity.CategoriaEntity;
 import com.dbc.colabore.entity.UsuarioEntity;
+import com.dbc.colabore.exception.FileStorageException;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.repository.CampanhaRepository;
 import com.dbc.colabore.repository.CategoriaRepository;
@@ -16,7 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -211,6 +214,30 @@ public class CampanhaService {
         CampanhaEntity campanha = campanhaRepository.save(campanhaEntity);
 
         return objectMapper.convertValue(campanha, CampanhaDTO.class);
+    }
+
+
+    public CampanhaDTO salvarFotoCampanha(MultipartFile file, int idCampanha) throws RegraDeNegocioException {
+        CampanhaEntity campanhaEntity= findById(idCampanha);
+
+        String fileName = org.springframework.util.StringUtils.cleanPath(file.getOriginalFilename());
+
+        try {
+
+           
+            if(fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+
+            campanhaEntity.setFileType(file.getContentType());
+            campanhaEntity.setFoto(file.getBytes());
+
+            CampanhaDTO campanhaDTO = saveEntity(campanhaEntity);
+
+            return campanhaDTO;
+        } catch (IOException ex) {
+            throw new FileStorageException("Não foi possível armazenar o arquivo " + fileName + ". Por favor, tente novamente!", ex);
+        }
     }
 
 }

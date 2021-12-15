@@ -27,6 +27,9 @@ public class CampanhaEntity {
     @Column(name = "FOTO")
     private byte[] foto;
 
+    @Column(name = "file_type")
+    private String fileType;
+
     @Column(name = "TITULO_CAMPANHA")
     private String tituloCampanha;
 

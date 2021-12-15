@@ -30,8 +30,4 @@ public class UsuarioDTO {
     @ApiModelProperty(value= "E-mail")
     private String email;
 
-
-    private String fotoPerfil;
-
-//    private List<PerfilDTO> perfis;
 }
