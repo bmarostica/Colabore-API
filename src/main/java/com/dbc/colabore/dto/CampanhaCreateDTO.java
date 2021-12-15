@@ -31,7 +31,7 @@ public class CampanhaCreateDTO {
 
     @NotBlank
     @ApiModelProperty(value = "Foto da Campanha")
-    private String foto;
+    private byte[] foto;
 
     @Future
     @NotNull
