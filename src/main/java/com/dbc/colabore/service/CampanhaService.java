@@ -88,7 +88,6 @@ public class CampanhaService {
         campanhaRepository.findAll().stream()
                 .forEach(campanhaEntity -> {
                     if (campanhaEntity.getDataLimiteContribuicao().equals(LocalDate.now())) {
-                        log.info(String.valueOf(campanhaEntity.getDataLimiteContribuicao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).equals(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))));
                         campanhaEntity.setStatusCampanha(false);
                         campanhaRepository.save(campanhaEntity);
                     }
