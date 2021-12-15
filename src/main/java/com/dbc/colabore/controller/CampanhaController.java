@@ -2,10 +2,7 @@ package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.CampanhaCreateDTO;
 import com.dbc.colabore.dto.CampanhaDTO;
-import com.dbc.colabore.dto.DoacaoCreateDTO;
-import com.dbc.colabore.dto.UsuarioDTO;
 import com.dbc.colabore.entity.CampanhaEntity;
-import com.dbc.colabore.entity.UsuarioEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.service.CampanhaService;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +40,9 @@ public class CampanhaController {
     })
     @PostMapping
     public CampanhaDTO create(@RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO){
-        return campanhaService.create(campanhaCreateDTO);
+
+        CampanhaDTO campanhaDTO = campanhaService.create(campanhaCreateDTO);
+        return campanhaDTO;
     }
 
     @ApiOperation("Mostra uma lista com todas as campanhas abertas.")
