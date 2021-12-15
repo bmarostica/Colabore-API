@@ -8,6 +8,7 @@ import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.repository.CampanhaRepository;
 import com.dbc.colabore.repository.CategoriaRepository;
 import com.dbc.colabore.repository.DoacaoRepository;
+import com.dbc.colabore.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +30,8 @@ public class CampanhaService {
     private final CategoriaService categoriaService;
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
+    private final UsuarioRepository usuarioRepository;
+    private final CategoriaRepository categoriaRepository;
 
     //funcionando
     public CampanhaDTO create(CampanhaCreateDTO campanhaCreateDTO) {
@@ -61,19 +64,6 @@ public class CampanhaService {
         campanhaDTO.setCriadorCampanha(objectMapper.convertValue(usuarioEntity, UsuarioDTO.class));
 
         return campanhaDTO;
-    }
-
-    // Criar Service de doação
-    public BigDecimal doacao(DoacaoCreateDTO doacaoCreateDTO) {
-//        CampanhaEntity localizarCampanha = campanhaRepository.getById(doacaoCreateDTO.getIdCampanha());
-//        CampanhaEntity campanhaEntity = objectMapper.convertValue(localizarCampanha, CampanhaEntity.class);
-//        BigDecimal totalArrecadado = campanhaEntity.getTotalArrecadado();
-//        campanhaEntity.setTotalArrecadado(totalArrecadado.add(valorDoado));
-//        campanhaEntity.setUltimaAlteracao(LocalDateTime.now());
-//        CampanhaEntity salvarCampanha = campanhaRepository.save(campanhaEntity);
-//        CampanhaDTO campanhaDTO = objectMapper.convertValue(salvarCampanha, CampanhaDTO.class);
-//        return campanhaDTO.getTotalArrecadado();
-        return null;
     }
 
     //funcionando
@@ -129,13 +119,48 @@ public class CampanhaService {
     }
 
 
+    //funcionando!?
     public CampanhaDTO update(Integer idCampanha, CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity = findById(idCampanha);
-        // Regra de negocio para validar se o usuario foi o criador da campanha
         verificaSeCriador(campanhaEntity);
 
+        if (campanhaEntity.getTotalArrecadado().compareTo(BigDecimal.ZERO) > 0) {
+            throw new RegraDeNegocioException("Campanha já possui doações, não é possível modifica-lá!");
+        } else {
+            UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
+            UsuarioEntity usuarioEntity = objectMapper.convertValue(recuperaUsuario, UsuarioEntity.class);
 
-        return null;
+            campanhaEntity = objectMapper.convertValue(campanhaCreateDTO, CampanhaEntity.class);
+
+            Set<CategoriaEntity> categorias = campanhaCreateDTO.getCategorias().stream()
+                    .map(categoriaCreateDTO -> {
+                        try {
+                            return categoriaService.findById(categoriaCreateDTO.getIdCategoria());
+                        } catch (RegraDeNegocioException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    })
+                    .collect(Collectors.toSet());
+
+            campanhaEntity.setIdCampanha(idCampanha);
+            campanhaEntity.setIdUsuario(usuarioEntity);
+            campanhaEntity.setTagsCategoria(categorias);
+            campanhaEntity.setStatusCampanha(true);
+            campanhaEntity.setTotalArrecadado(BigDecimal.ZERO);
+            campanhaEntity.setUltimaAlteracao(LocalDateTime.now().minusHours(3));
+
+            CampanhaEntity campanhaCriada = campanhaRepository.save(campanhaEntity);
+
+
+            CampanhaDTO campanhaDTO = objectMapper.convertValue(campanhaCriada, CampanhaDTO.class);
+            campanhaDTO.setCategorias(campanhaEntity.getTagsCategoria().stream()
+                    .map(categoriaEntity -> objectMapper.convertValue(categoriaEntity, CategoriaDTO.class))
+                    .collect(Collectors.toSet()));
+            campanhaDTO.setCriadorCampanha(objectMapper.convertValue(usuarioEntity, UsuarioDTO.class));
+
+            return campanhaDTO;
+        }
     }
 
     //funcionando
@@ -182,8 +207,8 @@ public class CampanhaService {
         return campanhaDTO;
     }
 
-    public CampanhaDTO saveEntity(CampanhaEntity campanhaEntity){
-        CampanhaEntity campanha =  campanhaRepository.save(campanhaEntity);
+    public CampanhaDTO saveEntity(CampanhaEntity campanhaEntity) {
+        CampanhaEntity campanha = campanhaRepository.save(campanhaEntity);
 
         return objectMapper.convertValue(campanha, CampanhaDTO.class);
     }
