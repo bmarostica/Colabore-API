@@ -153,6 +153,7 @@ public class CampanhaService {
             CampanhaEntity campanhaCriada = campanhaRepository.save(campanhaEntity);
 
 
+
             CampanhaDTO campanhaDTO = objectMapper.convertValue(campanhaCriada, CampanhaDTO.class);
             campanhaDTO.setCategorias(campanhaEntity.getTagsCategoria().stream()
                     .map(categoriaEntity -> objectMapper.convertValue(categoriaEntity, CategoriaDTO.class))

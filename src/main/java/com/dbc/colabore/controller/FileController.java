@@ -19,73 +19,73 @@ import java.io.IOException;
 
 @RestController
 public class FileController {
-    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
-
-    @Autowired
-    private FileStorageService fileStorageService;
-
-
-    @PostMapping("/uploadFotoPerfil")
-    public UsuarioDTO uploadFile(@RequestParam("file") MultipartFile file, Integer idUsuario) throws RegraDeNegocioException {
-        UsuarioDTO usuarioDTO = fileStorageService.storeFileUsuario(file, idUsuario);
-
-        return usuarioDTO;
-    }
-
-    @GetMapping("/downloadFotoPerfil/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-
-        Resource resource = fileStorageService.loadFileAsResourceUsuario(fileName);
-
-
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            logger.info("Não foi possível determinar o tipo de arquivo.");
-        }
-
-
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }
-
-
-    @PostMapping("/uploadFotoCampanha")
-    public CampanhaDTO uploaCampanha(@RequestParam("file") MultipartFile file, Integer idCampanha) throws RegraDeNegocioException {
-        CampanhaDTO campanhaDTO = fileStorageService.storeFileCampanha(file, idCampanha);
-
-        return campanhaDTO;
-    }
-
-
-    @GetMapping("/downloadFotoCapanha/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFotoCampanha(@PathVariable String fileName, HttpServletRequest request) {
-
-        Resource resource = fileStorageService.loadFileAsResourceCampanha(fileName);
-
-
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            logger.info("\n" + "Não foi possível determinar o tipo de arquivo.");
-        }
-
-
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }
+//    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
+//
+//    @Autowired
+//    private FileStorageService fileStorageService;
+//
+//
+//    @PostMapping("/uploadFotoPerfil")
+//    public UsuarioDTO uploadFile(@RequestParam("file") MultipartFile file, Integer idUsuario) throws RegraDeNegocioException {
+//        UsuarioDTO usuarioDTO = fileStorageService.storeFileUsuario(file, idUsuario);
+//
+//        return usuarioDTO;
+//    }
+//
+//    @GetMapping("/downloadFotoPerfil/{fileName:.+}")
+//    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+//
+//        Resource resource = fileStorageService.loadFileAsResourceUsuario(fileName);
+//
+//
+//        String contentType = null;
+//        try {
+//            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+//        } catch (IOException ex) {
+//            logger.info("Não foi possível determinar o tipo de arquivo.");
+//        }
+//
+//
+//        if(contentType == null) {
+//            contentType = "application/octet-stream";
+//        }
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(contentType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+//                .body(resource);
+//    }
+//
+//
+//    @PostMapping("/uploadFotoCampanha")
+//    public CampanhaDTO uploaCampanha(@RequestParam("file") MultipartFile file, Integer idCampanha) throws RegraDeNegocioException {
+//        CampanhaDTO campanhaDTO = fileStorageService.storeFileCampanha(file, idCampanha);
+//
+//        return campanhaDTO;
+//    }
+//
+//
+//    @GetMapping("/downloadFotoCapanha/{fileName:.+}")
+//    public ResponseEntity<Resource> downloadFotoCampanha(@PathVariable String fileName, HttpServletRequest request) {
+//
+//        Resource resource = fileStorageService.loadFileAsResourceCampanha(fileName);
+//
+//
+//        String contentType = null;
+//        try {
+//            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+//        } catch (IOException ex) {
+//            logger.info("\n" + "Não foi possível determinar o tipo de arquivo.");
+//        }
+//
+//
+//        if(contentType == null) {
+//            contentType = "application/octet-stream";
+//        }
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(contentType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+//                .body(resource);
+//    }
 }

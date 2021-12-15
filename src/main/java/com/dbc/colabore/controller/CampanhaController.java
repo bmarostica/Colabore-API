@@ -58,8 +58,6 @@ public class CampanhaController {
         campanhaService.alteraStatusDaCampanhaQuandoMetaAtingida(id);
     }
 
-
-
 //    @ApiOperation("Mostra uma lista com todas as campanhas concluídas.")
 //    @ApiResponses(value = {
 //            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
