@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -222,7 +221,7 @@ public class CampanhaService {
     public CampanhaDTO salvarFotoCampanha(MultipartFile file, int idCampanha) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity= findById(idCampanha);
 
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = org.springframework.util.StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
 
