@@ -2,6 +2,7 @@ package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.CampanhaCreateDTO;
 import com.dbc.colabore.dto.CampanhaDTO;
+import com.dbc.colabore.dto.CampanhaDetalheDTO;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.service.CampanhaService;
 import io.swagger.annotations.ApiOperation;
@@ -93,5 +94,17 @@ public class CampanhaController {
     }
 
 
+    @ApiOperation("Recupera detalhes da campanha.")
+    @GetMapping("/{id}")
+    public CampanhaDetalheDTO getPorId(@PathVariable("id") Integer id) throws RegraDeNegocioException {
+        return campanhaService.getById(id);
+    }
+
+
+    @ApiOperation("Recupera campanhas que usuario contribuiu.")
+    @GetMapping("/minhas-contribuicoes")
+    public List<CampanhaDTO> getMinhasContribuicoes() throws RegraDeNegocioException {
+        return campanhaService.findByContribuicoesPeloUsuarioQueEstaLogado();
+    }
 
 }

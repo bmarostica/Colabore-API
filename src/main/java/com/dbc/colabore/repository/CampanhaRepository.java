@@ -17,6 +17,14 @@ public interface CampanhaRepository extends JpaRepository<CampanhaEntity, Intege
             , nativeQuery = true)
     List<CampanhaEntity> findByCampanhasCriadasPeloUsuarioLogado(Integer idUsuario);
 
+
+    @Query(value = "SELECT c.* " +
+            "FROM CAMPANHA c " +
+            " join doacao d on (c.id_campanha = d.id_campanha) " +
+            " WHERE d.id_usuario = :idUsuario"
+            , nativeQuery = true)
+    List<CampanhaEntity> findByContribuicoesPeloUsuarioQueEstaLogado(Integer idUsuario);
+
     @Query(value = "SELECT * " +
             "FROM CAMPANHA " +
             "WHERE ID_USUARIO != :idUsuario and STATUS_CAMPANHA = TRUE"

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,5 +56,9 @@ public class DoacaoService {
         doacaoDTO.setCampanhaDTO(campanhaDTO);
 
         return doacaoDTO;
+    }
+
+    public Set<UsuarioDoacaoDTO> getUsuarioDoacaoAcumuladoPorIdCampanha(Integer idCampanha){
+        return  doacaoRepository.findAcumuladoDoacaoUsuarioCampanha(idCampanha);
     }
 }

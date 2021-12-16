@@ -30,10 +30,6 @@ public class CampanhaCreateDTO {
     private Set<CategoriaCreateDTO> categorias;
 
 
-    @NotBlank
-    @ApiModelProperty(value = "Foto da Campanha")
-    private byte[] foto;
-
     @Future
     @NotNull
     @ApiModelProperty(value = "Encerramento da campanha")

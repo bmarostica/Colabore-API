@@ -37,6 +37,7 @@ public class CampanhaService {
     private final CampanhaRepository campanhaRepository;
     private final CategoriaService categoriaService;
     private final UsuarioService usuarioService;
+    private final DoacaoService doacaoService;
     private final ObjectMapper objectMapper;
 
     public CampanhaDTO create(CampanhaCreateDTO campanhaCreateDTO) {
@@ -114,6 +115,15 @@ public class CampanhaService {
         UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
 
         return campanhaRepository.findByCampanhasCriadasPeloUsuarioLogado(recuperaUsuario.getIdUsuario()).stream()
+                .map(this::mapeamentoEConversao)
+                .collect(Collectors.toList());
+    }
+
+
+    public List<CampanhaDTO> findByContribuicoesPeloUsuarioQueEstaLogado() {
+        UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
+
+        return campanhaRepository.findByContribuicoesPeloUsuarioQueEstaLogado(recuperaUsuario.getIdUsuario()).stream()
                 .map(this::mapeamentoEConversao)
                 .collect(Collectors.toList());
     }
@@ -204,10 +214,28 @@ public class CampanhaService {
         return campanhaEntity;
     }
 
-    public CampanhaDTO getById(Integer id) throws RegraDeNegocioException {
+    public CampanhaDetalheDTO getById(Integer id) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity = findById(id);
-        CampanhaDTO campanhaDTO = objectMapper.convertValue(campanhaEntity, CampanhaDTO.class);
-        return campanhaDTO;
+
+        UsuarioDTO usuarioDTO = usuarioService.getUsuarioLogado();
+
+        CampanhaDetalheDTO campanhaDetalheDTO = objectMapper.convertValue(campanhaEntity, CampanhaDetalheDTO.class);
+
+        campanhaDetalheDTO.setUsuarioDoacaoDTOS(doacaoService.getUsuarioDoacaoAcumuladoPorIdCampanha(id)
+                .stream().map(usuarioDoacaoDTO -> {
+                    if(usuarioDoacaoDTO.getIdUsuario() != usuarioDTO.getIdUsuario()){
+                        usuarioDoacaoDTO.setValorTotalDoado(null);
+                    }
+                    return usuarioDoacaoDTO;
+                }).collect(Collectors.toSet()));
+        campanhaDetalheDTO.setTagsCategoria(campanhaEntity.getTagsCategoria()
+                .stream().map(categoriaEntity -> objectMapper.convertValue(categoriaEntity, CategoriaDTO.class))
+                .collect(Collectors.toSet()));
+
+        campanhaDetalheDTO.setCriadorCampanha(usuarioDTO.getIdUsuario() == campanhaEntity.getIdUsuario().getIdUsuario());
+
+
+        return campanhaDetalheDTO;
     }
 
     public CampanhaDTO saveEntity(CampanhaEntity campanhaEntity) {
