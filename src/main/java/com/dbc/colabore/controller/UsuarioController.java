@@ -2,7 +2,6 @@ package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.UsuarioCreateDTO;
 import com.dbc.colabore.dto.UsuarioDTO;
-import com.dbc.colabore.entity.UsuarioEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.service.UsuarioService;
 import io.swagger.annotations.ApiOperation;
@@ -10,15 +9,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 

@@ -37,6 +37,9 @@ public class FotoPerfilService {
             }
             fotoPerfil.setFileType(file.getContentType());
             fotoPerfil.setFotoPerfil(file.getBytes());
+
+            fotoPerfil = fotoPerfilRepository.save(fotoPerfil);
+
             usuarioEntity.setFotoPerfil(fotoPerfil);
 
             UsuarioDTO usuarioDTO = usuarioService.saveEntity(usuarioEntity);

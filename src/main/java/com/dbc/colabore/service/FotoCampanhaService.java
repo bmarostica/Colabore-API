@@ -1,12 +1,11 @@
 package com.dbc.colabore.service;
 
-import com.dbc.colabore.controller.UsuarioController;
 import com.dbc.colabore.dto.CampanhaDTO;
 import com.dbc.colabore.entity.CampanhaEntity;
 import com.dbc.colabore.entity.FotoCampanhaEntity;
-import com.dbc.colabore.entity.FotoPerfilEntity;
 import com.dbc.colabore.exception.FileStorageException;
 import com.dbc.colabore.exception.RegraDeNegocioException;
+import com.dbc.colabore.repository.FotoCampanhaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +16,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class FotoCampanhaService {
     private final CampanhaService campanhaService;
+    private final FotoCampanhaRepository fotoCampanhaRepository;
 
     public CampanhaDTO salvarFotoCampanha(MultipartFile file, int idCampanha) throws RegraDeNegocioException {
         CampanhaEntity campanhaEntity= campanhaService.findById(idCampanha);
@@ -34,7 +34,7 @@ public class FotoCampanhaService {
             }
             fotoCampanha.setFileType(file.getContentType());
             fotoCampanha.setFoto(file.getBytes());
-
+            fotoCampanha = fotoCampanhaRepository.save(fotoCampanha);
             campanhaEntity.setFotoCampanha(fotoCampanha);
 
             CampanhaDTO campanhaDTO = campanhaService.saveEntity(campanhaEntity);

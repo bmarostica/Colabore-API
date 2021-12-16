@@ -14,7 +14,7 @@ public class FotoPerfilEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_foto_perfil")
-    private String idFotoPerfil;
+    private Integer idFotoPerfil;
 
     @Column(name = "foto_perfil")
     private byte[] fotoPerfil;
