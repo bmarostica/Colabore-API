@@ -1,13 +1,9 @@
 package com.dbc.colabore.service;
 
-import com.dbc.colabore.dto.CampanhaDTO;
-import com.dbc.colabore.dto.PerfilDTO;
+
 import com.dbc.colabore.dto.UsuarioCreateDTO;
 import com.dbc.colabore.dto.UsuarioDTO;
-import com.dbc.colabore.entity.CampanhaEntity;
-import com.dbc.colabore.entity.PerfilEntity;
 import com.dbc.colabore.entity.UsuarioEntity;
-import com.dbc.colabore.exception.FileStorageException;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.repository.PerfilRepository;
 import com.dbc.colabore.repository.UsuarioRepository;
@@ -16,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -80,27 +73,5 @@ public class UsuarioService {
     }
 
 
-    public UsuarioDTO salvarFotoPerfil(MultipartFile file, int idUsuario) throws RegraDeNegocioException {
-        UsuarioEntity usuarioEntity= findById(idUsuario);
-
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-        try {
-
-
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-
-            usuarioEntity.setFileType(file.getContentType());
-            usuarioEntity.setFotoPerfil(file.getBytes());
-
-            UsuarioDTO usuarioDTO = saveEntity(usuarioEntity);
-
-            return usuarioDTO;
-        } catch (IOException ex) {
-            throw new FileStorageException("Não foi possível armazenar o arquivo " + fileName + ". Por favor, tente novamente!", ex);
-        }
-    }
 
 }

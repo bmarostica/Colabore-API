@@ -27,10 +27,6 @@ public class UsuarioEntity  implements Serializable, UserDetails {
     private String email;
     @Column(name = "senha")
     private String senha;
-    @Column(name = "foto_perfil")
-    private byte[] fotoPerfil;
-    @Column(name = "file_type")
-    private String fileType;
 
     //esse mapeamento deve ser feito com doação
 //    @ManyToMany (mappedBy = "usuariosContribuidores")
@@ -48,6 +44,10 @@ public class UsuarioEntity  implements Serializable, UserDetails {
 
     @OneToMany(mappedBy="usuarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<DoacaoEntity> doacoes;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_foto_perfil", referencedColumnName = "id_foto_perfil")
+    private FotoPerfilEntity fotoPerfil;
 
     @JsonIgnore
     @Override
