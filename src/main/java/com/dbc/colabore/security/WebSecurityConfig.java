@@ -42,6 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/campanha/**").authenticated()
                 //filtro de autenticação
                 .antMatchers(HttpMethod.POST, "/usuario/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/foto-perfil/downloadFotoPerfil/{idUsuario}**").permitAll()
+                .antMatchers(HttpMethod.GET,"/foto-campanha/downloadFotoCampanha/**").permitAll()
                 .and().addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
     }
 
