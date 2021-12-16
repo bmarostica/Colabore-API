@@ -1,10 +1,13 @@
 package com.dbc.colabore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,17 +20,15 @@ public class DoacaoEntity {
     private Integer idDoacao;
 
     @Column(name = "VALOR_DOACAO")
-    private String valor;
+    private BigDecimal valor;
 
-    @Column(name = "DATA_DOACAO")
-    private LocalDate dataDoacao;
-
-    @ManyToOne
-    @JoinColumn(name="id_usuario", nullable=false)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_usuario", referencedColumnName = "id_usuario")
     private UsuarioEntity usuarioEntity;
 
-
-    @ManyToOne
-    @JoinColumn(name="id_campanha", nullable=false)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_campanha", referencedColumnName = "id_campanha")
     private CampanhaEntity campanhaEntity;
 }

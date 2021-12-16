@@ -57,8 +57,7 @@ public class CampanhaEntity {
     @Column(name = "DATA_LIMITE_ARRECADACAO")
     private LocalDate dataLimiteContribuicao;
 
-
-    @OneToMany(mappedBy="campanhaEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="campanhaEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<DoacaoEntity> doacoes;
 
     @OneToOne(cascade = CascadeType.ALL)

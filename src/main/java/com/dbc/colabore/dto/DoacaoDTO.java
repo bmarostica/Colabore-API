@@ -10,7 +10,6 @@ public class DoacaoDTO {
 
     private Integer idDoacao;
     private BigDecimal valor;
-    private LocalDateTime dataDoacao;
     private UsuarioDTO usuario;
     private CampanhaDTO campanhaDTO;
 }

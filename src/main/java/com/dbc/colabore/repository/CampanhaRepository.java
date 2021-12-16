@@ -10,11 +10,6 @@ import java.util.List;
 @Repository
 public interface CampanhaRepository extends JpaRepository<CampanhaEntity, Integer> {
 
-    @Query(value = "SELECT * " +
-            "FROM CAMPANHA " +
-            "WHERE STATUS_CAMPANHA = FALSE"
-            , nativeQuery = true)
-    List<CampanhaEntity> findByCampanhasConcluidas();
 
     @Query(value = "SELECT * " +
             "FROM CAMPANHA " +
@@ -41,6 +36,5 @@ public interface CampanhaRepository extends JpaRepository<CampanhaEntity, Intege
             , nativeQuery = true
     )
     List<CampanhaEntity> findByMetaNaoAtingida();
-
 
 }
