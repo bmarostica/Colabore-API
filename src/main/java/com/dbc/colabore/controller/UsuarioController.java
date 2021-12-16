@@ -63,21 +63,5 @@ public class UsuarioController {
         return usuarioDTO;
     }
 
-    @PostMapping("/uploadFotoPerfil")
-    public UsuarioDTO uploadFile(@RequestPart("file") MultipartFile file, Integer idUsuario) throws RegraDeNegocioException {
-        UsuarioDTO usuarioDTO = usuarioService.salvarFotoPerfil(file, idUsuario);
-
-        return usuarioDTO;
-    }
-
-    @GetMapping("/downloadFotoPerfil/{idUsuario}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable int idUsuario) throws RegraDeNegocioException {
-        UsuarioEntity usuarioEntity = usuarioService.findById(idUsuario);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(usuarioEntity.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + usuarioEntity.getIdUsuario() + "\"")
-                .body(new ByteArrayResource(usuarioEntity.getFotoPerfil()));
-    }
 
 }

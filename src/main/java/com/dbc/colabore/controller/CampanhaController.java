@@ -110,16 +110,6 @@ public class CampanhaController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
     @ApiOperation("Atualiza uma campanha existente através do id.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Campanha atualizada com sucesso!"),
@@ -131,29 +121,6 @@ public class CampanhaController {
         return campanhaService.update(id, campanhaCreateDTO);
     }
 
-
-
-
-
-
-
-
-    @PostMapping("/uploadFotoCampanha")
-    public CampanhaDTO uploadFile(@RequestPart("file") MultipartFile file, Integer idCampanha) throws RegraDeNegocioException {
-        CampanhaDTO campanhaDTO = campanhaService.salvarFotoCampanha(file, idCampanha);
-
-        return campanhaDTO;
-    }
-
-    @GetMapping("/downloadFotoCampanha/{idCampanha}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable int idCampanha) throws RegraDeNegocioException {
-        CampanhaEntity campanhaEntity = campanhaService.findById(idCampanha);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(campanhaEntity.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + campanhaEntity.getIdUsuario() + "\"")
-                .body(new ByteArrayResource(campanhaEntity.getFoto()));
-    }
 
 
 }

@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CampanhaService {
 
+
     private final CampanhaRepository campanhaRepository;
     private final DoacaoRepository doacaoRepository;
     private final CategoriaService categoriaService;
@@ -214,28 +215,10 @@ public class CampanhaService {
         return objectMapper.convertValue(campanha, CampanhaDTO.class);
     }
 
+    //teste mockito
+//    public boolean verificarIdCampanhaComSucesso(Integer id){
+//        return id.equals(id);
+//    }
 
-    public CampanhaDTO salvarFotoCampanha(MultipartFile file, int idCampanha) throws RegraDeNegocioException {
-        CampanhaEntity campanhaEntity= findById(idCampanha);
-
-        String fileName = org.springframework.util.StringUtils.cleanPath(file.getOriginalFilename());
-
-        try {
-
-           
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-
-            campanhaEntity.setFileType(file.getContentType());
-            campanhaEntity.setFoto(file.getBytes());
-
-            CampanhaDTO campanhaDTO = saveEntity(campanhaEntity);
-
-            return campanhaDTO;
-        } catch (IOException ex) {
-            throw new FileStorageException("Não foi possível armazenar o arquivo " + fileName + ". Por favor, tente novamente!", ex);
-        }
-    }
 
 }

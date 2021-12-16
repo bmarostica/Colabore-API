@@ -24,12 +24,6 @@ public class CampanhaEntity {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     private UsuarioEntity idUsuario;
 
-    @Column(name = "FOTO")
-    private byte[] foto;
-
-    @Column(name = "file_type")
-    private String fileType;
-
     @Column(name = "TITULO_CAMPANHA")
     private String tituloCampanha;
 
@@ -66,5 +60,9 @@ public class CampanhaEntity {
 
     @OneToMany(mappedBy="campanhaEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<DoacaoEntity> doacoes;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_FOTO_CAMPANHA", referencedColumnName = "ID_FOTO_CAMPANHA")
+    private FotoCampanhaEntity fotoCampanha;
 
 }
