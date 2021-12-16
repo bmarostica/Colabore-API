@@ -18,7 +18,7 @@ public class Rotinas {
 
     private final CampanhaService campanhaService;
 
-    @Scheduled(fixedDelay = 1)
+    @Scheduled(fixedDelay = 50000)
     public void atualizaStatusDaCampanhaComMetaAtingida() {
         campanhaService.alteraStatusDaCampanhaQuandoMetaAtingida();
         log.info("{}", dateFormat.format(new Date()));
