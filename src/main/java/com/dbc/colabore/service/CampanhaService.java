@@ -4,26 +4,17 @@ import com.dbc.colabore.dto.*;
 import com.dbc.colabore.entity.CampanhaEntity;
 import com.dbc.colabore.entity.CategoriaEntity;
 import com.dbc.colabore.entity.UsuarioEntity;
-import com.dbc.colabore.exception.FileStorageException;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.repository.CampanhaRepository;
-import com.dbc.colabore.repository.CategoriaRepository;
-import com.dbc.colabore.repository.DoacaoRepository;
-import com.dbc.colabore.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -244,10 +235,6 @@ public class CampanhaService {
         return objectMapper.convertValue(campanha, CampanhaDTO.class);
     }
 
-    //teste mockito
-//    public boolean verificarIdCampanhaComSucesso(Integer id){
-//        return id.equals(id);
-//    }
 
 
 }
