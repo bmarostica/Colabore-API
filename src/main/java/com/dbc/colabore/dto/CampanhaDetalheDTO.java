@@ -14,6 +14,7 @@ public class CampanhaDetalheDTO{
     private String descricaoCampanha;
     private BigDecimal metaArrecadacao;
     private LocalDate dataLimiteContribuicao;
+    private Boolean concluiCampanhaAutomaticamente;
 
     private Boolean criadorCampanha;
     private Set<CategoriaDTO> tagsCategoria;
