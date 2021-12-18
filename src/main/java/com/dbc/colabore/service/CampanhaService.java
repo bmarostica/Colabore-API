@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -133,7 +134,7 @@ public class CampanhaService {
         CampanhaEntity campanhaEntity = findById(idCampanha);
         verificaSeCriador(campanhaEntity);
 
-        if (campanhaEntity.getTotalArrecadado().compareTo(BigDecimal.ZERO) > 0) {
+        if (campanhaEntity.getTotalArrecadado().compareTo(campanhaEntity.getMetaArrecadacao()) >= 0) {
             throw new RegraDeNegocioException("Campanha já possui doações, não é possível modifica-lá!");
         } else {
             UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
@@ -174,7 +175,12 @@ public class CampanhaService {
         CampanhaEntity campanhaEntity = findById(id);
         verificaSeCriador(campanhaEntity);
 
-        campanhaRepository.delete(campanhaEntity);
+        if (campanhaEntity.getTotalArrecadado().compareTo(campanhaEntity.getMetaArrecadacao()) >= 0) {
+            throw new RegraDeNegocioException("Campanha já possui doações, não é possível deleta-lá!");
+
+        } else {
+            campanhaRepository.delete(campanhaEntity);
+        }
     }
 
 
@@ -214,7 +220,7 @@ public class CampanhaService {
 
         campanhaDetalheDTO.setUsuarioDoacaoDTOS(doacaoService.getUsuarioDoacaoAcumuladoPorIdCampanha(id)
                 .stream().map(usuarioDoacaoDTO -> {
-                    if(usuarioDoacaoDTO.getIdUsuario() != usuarioDTO.getIdUsuario()){
+                    if (usuarioDoacaoDTO.getIdUsuario() != usuarioDTO.getIdUsuario()) {
                         usuarioDoacaoDTO.setValorTotalDoado(null);
                     }
                     return usuarioDoacaoDTO;
@@ -234,7 +240,6 @@ public class CampanhaService {
 
         return objectMapper.convertValue(campanha, CampanhaDTO.class);
     }
-
 
 
 }
