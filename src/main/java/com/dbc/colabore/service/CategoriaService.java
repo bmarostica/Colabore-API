@@ -40,16 +40,9 @@ public class CategoriaService {
 
     public CategoriaEntity findById(Integer id) throws RegraDeNegocioException {
         CategoriaEntity categoriaEntity = categoriaRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Categoria não localizada"));
+                .orElseThrow(() -> new RegraDeNegocioException("Categoria não localizada!"));
         return categoriaEntity;
     }
-
-    public CategoriaDTO getById(Integer id) throws RegraDeNegocioException {
-        CategoriaEntity entity = findById(id);
-        CategoriaDTO dto = objectMapper.convertValue(entity, CategoriaDTO.class);
-        return dto;
-    }
-
 
     public void delete(Integer id) throws RegraDeNegocioException {
         CategoriaEntity categoriaEntity = findById(id);

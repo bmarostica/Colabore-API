@@ -1,6 +1,5 @@
 package com.dbc.colabore.controller;
 
-import com.dbc.colabore.dto.CategoriaCreateDTO;
 import com.dbc.colabore.dto.CategoriaCreateDTOComNome;
 import com.dbc.colabore.dto.CategoriaDTO;
 import com.dbc.colabore.exception.RegraDeNegocioException;
@@ -47,7 +46,10 @@ public class CategoriaController {
     })
     @GetMapping
     public List<CategoriaDTO> list() {
-        return categoriaService.list();
+        log.info("Buscando categorias...");
+        List<CategoriaDTO> categoriaDTOS = categoriaService.list();
+        log.info("Categorias localizadas com sucesso!");
+        return categoriaDTOS;
     }
 
 

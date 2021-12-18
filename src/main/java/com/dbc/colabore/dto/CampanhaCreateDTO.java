@@ -37,7 +37,7 @@ public class CampanhaCreateDTO {
 
 
     @NotNull
-    @ApiModelProperty(value = "Define se a campanha deve ser encerrada automaticamente ao atingir a meta")
+    @ApiModelProperty(value = "Define se a campanha deve ser encerrada automaticamente ao atingir a meta TRUE = SIM, FALSE = NÃO")
     private Boolean concluiCampanhaAutomaticamente;
 
 }

@@ -4,7 +4,6 @@ import com.dbc.colabore.dto.UsuarioDTO;
 import com.dbc.colabore.entity.UsuarioEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.service.FotoPerfilService;
-import com.dbc.colabore.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;

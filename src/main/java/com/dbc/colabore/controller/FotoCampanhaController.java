@@ -1,11 +1,8 @@
 package com.dbc.colabore.controller;
 
 import com.dbc.colabore.dto.CampanhaDTO;
-import com.dbc.colabore.dto.UsuarioDTO;
 import com.dbc.colabore.entity.CampanhaEntity;
-import com.dbc.colabore.entity.UsuarioEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
-import com.dbc.colabore.service.CampanhaService;
 import com.dbc.colabore.service.FotoCampanhaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -25,8 +25,6 @@ public class CampanhaController {
 
     private final CampanhaService campanhaService;
 
-    
-
     @ApiOperation("Cria uma nova campanha.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Campanha criada com sucesso!"),
@@ -34,9 +32,11 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @PostMapping
-    public CampanhaDTO create(@RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO){
-
+    public CampanhaDTO create(@RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO) {
+        log.info("Criando campanha...");
         CampanhaDTO campanhaDTO = campanhaService.create(campanhaCreateDTO);
+        log.info("Campanha criada com sucesso!");
+
         return campanhaDTO;
     }
 
@@ -46,8 +46,12 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
     })
     @GetMapping
-    public List<CampanhaDTO> list(){
-        return campanhaService.list();
+    public List<CampanhaDTO> list() {
+        log.info("Buscando campanhas...");
+        List<CampanhaDTO> campanhaDTO = campanhaService.list();
+        log.info("Campanhas localizadas com sucesso!");
+
+        return campanhaDTO;
     }
 
 
@@ -57,8 +61,12 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
     })
     @GetMapping("/lista-as-campanhas-criadas-pelo-usuario-logado")
-    public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioQueEstaLogado() throws RegraDeNegocioException {
-        return campanhaService.findByCampanhasCriadasPeloUsuarioQueEstaLogado();
+    public List<CampanhaDTO> findByCampanhasCriadasPeloUsuarioQueEstaLogado() {
+        log.info("Buscando campanhas...");
+        List<CampanhaDTO> campanhaDTO = campanhaService.findByCampanhasCriadasPeloUsuarioQueEstaLogado();
+        log.info("Campanhas localizadas com sucesso!");
+
+        return campanhaDTO;
     }
 
     @ApiOperation("Deleta uma campanha existente através do id.")
@@ -69,7 +77,9 @@ public class CampanhaController {
     })
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Integer id) throws RegraDeNegocioException {
+        log.info("Deletando campanha...");
         campanhaService.delete(id);
+        log.info("Campanha deletada com sucesso!");
     }
 
     @ApiOperation("Filtra as campanhas conforme meta se foi atingida ou não")
@@ -79,8 +89,12 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @GetMapping("/filtra-por-meta-atingida-ou-não-atingida")
-    public List<CampanhaDTO> findByMetaAtingidaOuNaoAtingida(@RequestParam (required = false) String meta) throws RegraDeNegocioException {
-        return campanhaService.findByMetaAtingidaOuNaoAtingida(meta);
+    public List<CampanhaDTO> findByMetaAtingidaOuNaoAtingida(@RequestParam(required = false) String meta) {
+        log.info("Filtrando campanhas...");
+        List<CampanhaDTO> campanhaDTO = campanhaService.findByMetaAtingidaOuNaoAtingida(meta);
+        log.info("Campanhas filtradas com sucesso!");
+
+        return campanhaDTO;
     }
 
     @ApiOperation("Atualiza uma campanha existente através do id.")
@@ -91,21 +105,44 @@ public class CampanhaController {
     })
     @PutMapping("/{id}")
     public CampanhaDTO update(@PathVariable("id") Integer id, @RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
-        return campanhaService.update(id, campanhaCreateDTO);
+        log.info("Atualizando campanha...");
+        CampanhaDTO campanhaDTO = campanhaService.update(id, campanhaCreateDTO);
+        log.info("Campanha atualizada com sucesso!");
+
+        return campanhaDTO;
+
     }
 
-
     @ApiOperation("Recupera detalhes da campanha.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+    })
     @GetMapping("/{id}")
     public CampanhaDetalheDTO getPorId(@PathVariable("id") Integer id) throws RegraDeNegocioException {
-        return campanhaService.getById(id);
+        log.info("Buscando campanha...");
+        CampanhaDetalheDTO campanhaDetalheDTO = campanhaService.getById(id);
+        log.info("Campanhas localizada com sucesso!");
+
+        return campanhaDetalheDTO;
     }
 
 
     @ApiOperation("Recupera campanhas que usuario contribuiu.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
+    })
     @GetMapping("/minhas-contribuicoes")
-    public List<CampanhaDTO> getMinhasContribuicoes() throws RegraDeNegocioException {
-        return campanhaService.findByContribuicoesPeloUsuarioQueEstaLogado();
+    public List<CampanhaDTO> getMinhasContribuicoes() {
+        log.info("Filtrando campanhas...");
+        List<CampanhaDTO> campanhaDTO = campanhaService.findByContribuicoesPeloUsuarioQueEstaLogado();
+        ;
+        log.info("Campanhas filtradas com sucesso!");
+
+        return campanhaDTO;
     }
 
 }

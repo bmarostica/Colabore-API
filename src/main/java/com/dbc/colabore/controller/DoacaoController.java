@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.math.BigDecimal;
 
 @RestController
@@ -32,10 +31,14 @@ public class DoacaoController {
     })
     @PutMapping("/realiza-a-doacao-de-um-valor")
     public DoacaoDTO doacao(@RequestParam("Id da Campanha") Integer idCampanha,
-                            @RequestParam("Valor da doação")BigDecimal doação) throws RegraDeNegocioException {
+                            @RequestParam("Valor da doação") BigDecimal doação) throws RegraDeNegocioException {
+        log.info("Realizando doação...");
         DoacaoCreateDTO doacaoCreateDTO = new DoacaoCreateDTO();
         doacaoCreateDTO.setIdCampanha(idCampanha);
         doacaoCreateDTO.setValor(doação);
-        return doacaoService.doacao(doacaoCreateDTO);
+        DoacaoDTO dto = doacaoService.doacao(doacaoCreateDTO);
+        log.info("Doação realizada com sucesso!");
+
+        return dto;
     }
 }

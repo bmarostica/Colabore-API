@@ -3,6 +3,7 @@ package com.dbc.colabore.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -18,6 +19,7 @@ public class UsuarioCreateDTO {
     @ApiModelProperty(value= "Nome do usuario")
     private String nome;
 
+    @Email
     @NotNull(message = "Não pode ser null")
     @NotBlank(message = "Não pode estar em branco")
     @ApiModelProperty(value= "E-mail")
