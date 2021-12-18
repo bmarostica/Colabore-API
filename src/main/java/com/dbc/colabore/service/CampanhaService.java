@@ -191,6 +191,12 @@ public class CampanhaService {
                     .map(categoriaEntity -> objectMapper.convertValue(categoriaEntity, CategoriaDTO.class))
                     .collect(Collectors.toSet()));
             campanhaDTO.setCriadorCampanha(usuarioService.getById(campanhaEntity.getIdUsuario().getIdUsuario()));
+
+            if(campanhaDTO.getMetaArrecadacao().compareTo(campanhaDTO.getTotalArrecadado()) <= 0 ) {
+                campanhaDTO.setMetaAtingida(true);
+            }else{
+                campanhaDTO.setMetaAtingida(false);
+            }
         } catch (RegraDeNegocioException e) {
             e.printStackTrace();
         }

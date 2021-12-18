@@ -23,4 +23,7 @@ public class CampanhaDTO extends CampanhaCreateDTO{
 
     @ApiModelProperty(value = "Campanha se encontra aberta ou fechada? true = aberta, false = fechada")
     private Boolean statusCampanha;
+
+    @ApiModelProperty(value = "Meta se está atingida tru, false")
+    private Boolean metaAtingida;
 }
