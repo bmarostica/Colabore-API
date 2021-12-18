@@ -52,7 +52,6 @@ public class CategoriaController {
         return categoriaDTOS;
     }
 
-
     @ApiOperation("Deleta uma categoria existente através do id.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Categoria deletada com sucesso!"),
@@ -64,6 +63,19 @@ public class CategoriaController {
         log.info("Deletando categoria...");
         categoriaService.delete(id);
         log.info("Categoria deletada com sucesso!");
+    }
+
+    @ApiOperation("Mostra uma lista com todas as categorias cadastradas na campanha informada.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+    })
+    @GetMapping("/{idCampanha}")
+    public List<CategoriaDTO> listAsCategoriasExistentesNaCampanha(@PathVariable("idCampanha") Integer idCampanha) {
+        log.info("Buscando categorias...");
+        List<CategoriaDTO> categoriaDTOS = categoriaService.listAsCategoriasExistentesNaCampanha(idCampanha);
+        log.info("Categorias localizadas com sucesso!");
+        return categoriaDTOS;
     }
 
 

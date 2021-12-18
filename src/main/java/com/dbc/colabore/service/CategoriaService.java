@@ -48,4 +48,12 @@ public class CategoriaService {
         CategoriaEntity categoriaEntity = findById(id);
         categoriaRepository.delete(categoriaEntity);
     }
+
+    public List<CategoriaDTO> listAsCategoriasExistentesNaCampanha(Integer idCampanha) {
+        return categoriaRepository.listAsCategoriasExistentesNaCampanha(idCampanha).stream()
+                .map(categoria -> objectMapper.convertValue(categoria, CategoriaDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
 }
