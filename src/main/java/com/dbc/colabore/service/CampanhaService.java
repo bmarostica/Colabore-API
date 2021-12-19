@@ -32,11 +32,15 @@ public class CampanhaService {
     private final DoacaoService doacaoService;
     private final ObjectMapper objectMapper;
 
-    public CampanhaDTO create(CampanhaCreateDTO campanhaCreateDTO) {
+    public CampanhaDTO create(CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
         UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
         UsuarioEntity usuarioEntity = objectMapper.convertValue(recuperaUsuario, UsuarioEntity.class);
 
         CampanhaEntity campanhaEntity = objectMapper.convertValue(campanhaCreateDTO, CampanhaEntity.class);
+
+        if(campanhaCreateDTO.getMetaArrecadacao().compareTo(BigDecimal.ZERO) <= 0){
+            throw new RegraDeNegocioException("Meta de arrecadação deve ser maior do que zero!");
+        }
 
         Set<CategoriaEntity> categorias = campanhaCreateDTO.getCategorias().stream()
                 .map(categoriaCreateDTO -> {
