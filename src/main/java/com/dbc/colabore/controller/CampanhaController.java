@@ -32,7 +32,7 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @PostMapping
-    public CampanhaDTO create(@RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO) {
+    public CampanhaDTO create(@RequestBody @Valid CampanhaCreateDTO campanhaCreateDTO) throws RegraDeNegocioException {
         log.info("Criando campanha...");
         CampanhaDTO campanhaDTO = campanhaService.create(campanhaCreateDTO);
         log.info("Campanha criada com sucesso!");
