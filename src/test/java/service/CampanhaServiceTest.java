@@ -15,12 +15,10 @@
  import com.fasterxml.jackson.databind.ObjectMapper;
  import org.junit.Test;
  import org.junit.jupiter.api.BeforeEach;
- import org.junit.runner.RunWith;
  import org.mockito.InjectMocks;
  import org.mockito.Mock;
  import org.mockito.Mockito;
  import org.mockito.MockitoAnnotations;
- import org.mockito.junit.MockitoJUnitRunner;
  import java.math.BigDecimal;
  import java.time.LocalDate;
  import java.time.format.DateTimeFormatter;
@@ -30,7 +28,7 @@
  import static org.mockito.Mockito.*;
 
 
- @RunWith(MockitoJUnitRunner.class)
+
  public class CampanhaServiceTest {
 
 

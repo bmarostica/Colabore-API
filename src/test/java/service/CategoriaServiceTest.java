@@ -8,18 +8,16 @@
  import com.fasterxml.jackson.databind.ObjectMapper;
  import org.junit.Test;
  import org.junit.jupiter.api.BeforeEach;
- import org.junit.runner.RunWith;
  import org.mockito.InjectMocks;
  import org.mockito.Mock;
  import org.mockito.Mockito;
  import org.mockito.MockitoAnnotations;
- import org.mockito.junit.MockitoJUnitRunner;
 
- import java.util.Optional;
 
  import static org.mockito.Mockito.*;
 
- @RunWith(MockitoJUnitRunner.class)
+
+
  public class CategoriaServiceTest {
 
 
@@ -50,13 +48,5 @@
          verify(categoriaService, Mockito.times(1)).create(categoriaCreateDTO);
      }
 
-
-     @Test
-     public void deletaCategoriaComSucesso() throws Exception {
-         CategoriaEntity categoriaEntity = new CategoriaEntity();
-         doReturn(Optional.of(categoriaEntity)).when(categoriaRepository).findById(1);
-         categoriaService.delete(1);
-         verify(categoriaRepository, times(1)).delete(categoriaEntity);
-     }
 
  }
