@@ -32,7 +32,7 @@ public class PerfilEntity implements Serializable, GrantedAuthority {
 //    )
 //    private List<RegraEntity> regras;
 
-    
+
 
     @Override
     public String getAuthority() {
