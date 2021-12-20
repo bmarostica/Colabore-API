@@ -6,6 +6,7 @@ import com.dbc.colabore.entity.CategoriaEntity;
 import com.dbc.colabore.entity.UsuarioEntity;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.repository.CampanhaRepository;
+import com.dbc.colabore.repository.DoacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -116,11 +118,30 @@ public class CampanhaService {
     }
 
 
-    public List<CampanhaDTO> findByContribuicoesPeloUsuarioQueEstaLogado() {
+    public List<CampanhaUsuarioComDoacaoDTO> findByContribuicoesPeloUsuarioQueEstaLogado() {
         UsuarioDTO recuperaUsuario = usuarioService.getUsuarioLogado();
 
         return campanhaRepository.findByContribuicoesPeloUsuarioQueEstaLogado(recuperaUsuario.getIdUsuario()).stream()
-                .map(this::mapeamentoEConversao)
+                .map(campanhaEntity -> {
+                    CampanhaUsuarioComDoacaoDTO campanhaUsuarioComDoacaoDTO = objectMapper.convertValue(campanhaEntity, CampanhaUsuarioComDoacaoDTO.class);
+                    try {
+                        campanhaUsuarioComDoacaoDTO.setCategorias(campanhaEntity.getTagsCategoria().stream()
+                                .map(categoriaEntity -> objectMapper.convertValue(categoriaEntity, CategoriaDTO.class))
+                                .collect(Collectors.toSet()));
+                        campanhaUsuarioComDoacaoDTO.setCriadorDaCampanha(usuarioService.getById(campanhaEntity.getIdUsuario().getIdUsuario()));
+
+                        campanhaUsuarioComDoacaoDTO.setUsuarioDoacaoDTO(doacaoService.getValorTotalDoadoPeloUsuarioNaCampanha(recuperaUsuario.getIdUsuario(), campanhaEntity.getIdCampanha()));
+
+                        if(campanhaUsuarioComDoacaoDTO.getMetaArrecadacao().compareTo(campanhaUsuarioComDoacaoDTO.getTotalArrecadado()) <= 0 ) {
+                            campanhaUsuarioComDoacaoDTO.setMetaAtingida(true);
+                        }else{
+                            campanhaUsuarioComDoacaoDTO.setMetaAtingida(false);
+                        }
+                    } catch (RegraDeNegocioException e) {
+                        e.printStackTrace();
+                    }
+                    return campanhaUsuarioComDoacaoDTO;
+                })
                 .collect(Collectors.toList());
     }
 

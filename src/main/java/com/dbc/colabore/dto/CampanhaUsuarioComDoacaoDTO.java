@@ -1,19 +1,20 @@
 package com.dbc.colabore.dto;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
-public class CampanhaDTO extends CampanhaCreateDTO{
+public class CampanhaUsuarioComDoacaoDTO extends CampanhaCreateDTO{
 
     @ApiModelProperty(value = "Id da campanha")
     private Integer idCampanha;
 
     @ApiModelProperty(value = "Criador da campanha")
-    private UsuarioDTO criadorCampanha;
+    private UsuarioDTO criadorDaCampanha;
 
     @ApiModelProperty(value = "Total arrecadado na campanha")
     private BigDecimal totalArrecadado;
@@ -26,4 +27,7 @@ public class CampanhaDTO extends CampanhaCreateDTO{
 
     @ApiModelProperty(value = "Meta se está atingida true = sim, false= não")
     private Boolean metaAtingida;
+
+    @ApiModelProperty(value = "Mostra o valor total doado na campanha pelo usuário")
+    private UsuarioDoacaoDTO usuarioDoacaoDTO;
 }
