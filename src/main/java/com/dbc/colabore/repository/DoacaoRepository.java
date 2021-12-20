@@ -18,4 +18,12 @@ public interface DoacaoRepository extends JpaRepository<DoacaoEntity, Integer> {
             "where campanha.idCampanha = :idCampanha " +
             "group by usuario.idUsuario , usuario.nome ,usuario.email")
     Set<UsuarioDoacaoDTO> findAcumuladoDoacaoUsuarioCampanha(Integer idCampanha);
+
+    @Query(value ="select  new com.dbc.colabore.dto.UsuarioDoacaoDTO( usuario.idUsuario , usuario.nome ,usuario.email, SUM(d.valor) ) " +
+            "from DOACAO d " +
+            "join d.usuarioEntity usuario " +
+            "join d.campanhaEntity campanha " +
+            "where d.usuarioEntity.idUsuario = :idUsuario and campanha.idCampanha = :idCampanha " +
+            "group by usuario.idUsuario , usuario.nome ,usuario.email")
+    UsuarioDoacaoDTO getValorTotalDoadoPeloUsuarioNaCampanha(Integer idUsuario, Integer idCampanha);
 }

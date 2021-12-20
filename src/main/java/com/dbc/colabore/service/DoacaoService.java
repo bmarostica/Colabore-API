@@ -23,7 +23,6 @@ public class DoacaoService {
     private final ObjectMapper objectMapper;
     private final UsuarioService usuarioService;
     private final CampanhaRepository campanhaRepository;
-
     private final DoacaoRepository doacaoRepository;
 
 
@@ -60,5 +59,9 @@ public class DoacaoService {
 
     public Set<UsuarioDoacaoDTO> getUsuarioDoacaoAcumuladoPorIdCampanha(Integer idCampanha){
         return  doacaoRepository.findAcumuladoDoacaoUsuarioCampanha(idCampanha);
+    }
+
+    public UsuarioDoacaoDTO getValorTotalDoadoPeloUsuarioNaCampanha(Integer idUsuario, Integer idCampanha){
+        return  doacaoRepository.getValorTotalDoadoPeloUsuarioNaCampanha(idUsuario, idCampanha);
     }
 }

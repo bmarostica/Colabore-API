@@ -3,6 +3,7 @@ package com.dbc.colabore.controller;
 import com.dbc.colabore.dto.CampanhaCreateDTO;
 import com.dbc.colabore.dto.CampanhaDTO;
 import com.dbc.colabore.dto.CampanhaDetalheDTO;
+import com.dbc.colabore.dto.CampanhaUsuarioComDoacaoDTO;
 import com.dbc.colabore.exception.RegraDeNegocioException;
 import com.dbc.colabore.service.CampanhaService;
 import io.swagger.annotations.ApiOperation;
@@ -136,13 +137,12 @@ public class CampanhaController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada.")
     })
     @GetMapping("/minhas-contribuicoes")
-    public List<CampanhaDTO> getMinhasContribuicoes() {
+    public List<CampanhaUsuarioComDoacaoDTO> getMinhasContribuicoes() {
         log.info("Filtrando campanhas...");
-        List<CampanhaDTO> campanhaDTO = campanhaService.findByContribuicoesPeloUsuarioQueEstaLogado();
-        ;
+        List<CampanhaUsuarioComDoacaoDTO> campanhaUsuarioComDoacaoDTO = campanhaService.findByContribuicoesPeloUsuarioQueEstaLogado();
         log.info("Campanhas filtradas com sucesso!");
 
-        return campanhaDTO;
+        return campanhaUsuarioComDoacaoDTO;
     }
 
 }
