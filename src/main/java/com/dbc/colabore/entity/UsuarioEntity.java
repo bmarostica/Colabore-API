@@ -38,7 +38,7 @@ public class UsuarioEntity  implements Serializable, UserDetails {
     private List<PerfilEntity> perfil;
 
 
-    @OneToMany(mappedBy="usuarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="usuarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<DoacaoEntity> doacoes;
 
     @OneToOne(cascade = CascadeType.ALL)
