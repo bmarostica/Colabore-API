@@ -29,7 +29,7 @@ public class FotoPerfilService {
 
 
             if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                throw new FileStorageException("Desculpe! O nome do arquivo contém uma sequência de caminho inválida " + fileName);
             }
             FotoPerfilEntity fotoPerfil = usuarioEntity.getFotoPerfil();
             if(fotoPerfil == null){

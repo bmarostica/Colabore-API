@@ -49,9 +49,9 @@ public class UsuarioEntity  implements Serializable, UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (PerfilEntity perfilEntity : perfil) {
-            grantedAuthorities.addAll(perfilEntity.getRegras());
-        }
+//        for (PerfilEntity perfilEntity : perfil) {
+            grantedAuthorities.addAll(perfil);
+//        }
         return grantedAuthorities;
     }
 

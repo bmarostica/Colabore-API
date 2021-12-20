@@ -26,7 +26,7 @@ public class FotoCampanhaService {
         try {
 
             if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                throw new FileStorageException("Desculpe! O nome do arquivo contém uma sequência de caminho inválida " + fileName);
             }
             FotoCampanhaEntity fotoCampanha = campanhaEntity.getFotoCampanha();
             if(fotoCampanha == null){
