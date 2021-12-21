@@ -9,10 +9,12 @@ import com.dbc.colabore.repository.CampanhaRepository;
 import com.dbc.colabore.repository.DoacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,10 @@ public class DoacaoService {
         UsuarioEntity usuarioEntity = usuarioService.findById(recuperaUsuario.getIdUsuario());
 
         CampanhaEntity localizarCampanha = campanhaRepository.getById(doacaoCreateDTO.getIdCampanha());
+
+        if(Objects.equals(recuperaUsuario.getIdUsuario(), localizarCampanha.getIdUsuario().getIdUsuario())){
+            throw new RegraDeNegocioException("Você não pode doar para a campanha criada por si mesmo!!");
+        }
 
         BigDecimal totalArrecadado = localizarCampanha.getTotalArrecadado();
         localizarCampanha.setTotalArrecadado(totalArrecadado.add(doacaoCreateDTO.getValor()));
